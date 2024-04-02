@@ -4,7 +4,7 @@ const sendToken = require('../utils/jwtToken');
 
 // register user
 exports.registerUser = async (req, res, next) => {
-    const { name, email, password } = req.body;
+    const { name, email, password,role } = req.body;
     try {
         const user = await User.create({
             name,
@@ -14,6 +14,7 @@ exports.registerUser = async (req, res, next) => {
                 public_id: "this is sample public_id",
                 url: "image.url"
             },
+            role: role
         })
         sendToken(user, 201, res);
     } catch (error) {
@@ -60,3 +61,6 @@ exports.logout = async (req, res, next) => {
         res.status(500).json(error)
     }
 }
+
+// user resetPassword
+
