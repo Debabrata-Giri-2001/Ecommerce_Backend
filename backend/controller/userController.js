@@ -2,7 +2,9 @@ const catchAsyncError = require('../middleware/catchAsyncError');
 const User = require('../model/userModel')
 const ErrorHandelder = require('../utils/errorHnadeler');
 const sendToken = require('../utils/jwtToken');
-const sendEmail = require('../utils/sendEmail')
+const sendEmail = require('../utils/sendEmail');
+const JWT = require('jsonwebtoken')
+
 const crypto = require("crypto");
 
 // register user
@@ -131,4 +133,15 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
     await user.save();
 
     sendToken(user, 200, res);
-})  
+})
+
+// get self data
+exports.getUserDetails = catchAsyncError(async (req, res, next) => {
+    const token = req.cookies.token;
+    const decoded = JWT.verify(token, process.env.JWT_SECRET);
+    const user = await User.findOne({ _id: decoded.id });
+    res.status(200).json({
+        success: true,
+        user,
+    });
+});
