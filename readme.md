@@ -1,6 +1,6 @@
 <!--  -->
-### `npm start`
-### dev start `npm run dev`
+### react-app start `npm start`
+### db start `npm run dev`
 
 <!-- Project URL -->
 
