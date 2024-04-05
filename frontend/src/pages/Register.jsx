@@ -202,7 +202,7 @@ const Register = () => {
 
                 </div>
                 {/* right side */}
-                <div className='w-[50%] bg-imageLoginImage bg-cover bg-no-repeat'>
+                <div className='w-[50%] bg-imageRegisImage bg-cover bg-no-repeat'>
                     {/* Right side content */}
 
                 </div>

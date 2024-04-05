@@ -1,10 +1,9 @@
 import React from "react";
-import ForgotPassword from "./pages/ForgotPassword";
-
+import LogIn from "./pages/LogIn";
 function App() {
   return (
     <div className="App">
-      <ForgotPassword />
+      <LogIn />
     </div>
   );
 }

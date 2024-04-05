@@ -54,7 +54,7 @@ const Login = () => {
         {/* left side */}
         <div className='bg-slate-200 w-[50%] items-center'>
           {/* Left side content */}
-          <h1 className='font-serif text-7xl px-3 py-6'>Login</h1>
+          <h1 className='font-Ubuntu text-xl font-semibold px-3 py-6'>Login</h1>
 
           <Formik
             initialValues={initialValues}

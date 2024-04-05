@@ -129,7 +129,7 @@ const ForgotPassword = () => {
                     </Formik>
                 </div>
                 {/* right side */}
-                <div className='w-[50%] bg-imageLoginImage bg-cover bg-no-repeat'>
+                <div className='w-[50%] bg-imageForgotImage bg-cover bg-no-repeat'>
                     {/* Right side content */}
 
                 </div>
