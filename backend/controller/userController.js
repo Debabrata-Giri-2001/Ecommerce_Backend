@@ -145,3 +145,19 @@ exports.getUserDetails = catchAsyncError(async (req, res, next) => {
         user,
     });
 });
+
+// get all user details
+exports.getAllUserDetails = async (req, res, next) => {
+    try {
+        const allUser = await User.find();
+        const userCount = await User.countDocuments();
+
+        res.status(200).json({
+            success: true,
+            users: allUser,
+            userCount: userCount
+        })
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}

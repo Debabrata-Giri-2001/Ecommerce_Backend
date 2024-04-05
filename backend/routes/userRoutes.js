@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, loginUser, logout, forgotPassword, resetPassword, getUserDetails } = require('../controller/userController');
+const { registerUser, loginUser, logout, forgotPassword, resetPassword, getUserDetails, getAllUserDetails } = require('../controller/userController');
 const router = express.Router();
 
 
@@ -9,5 +9,6 @@ router.route('/logout').get(logout);
 router.route('/password/forgot').post(forgotPassword)
 router.route("/password/reset/:token").put(resetPassword);
 router.route('/current-user').get(getUserDetails);
+router.route('/all-users').get(getAllUserDetails);
 
 module.exports = router;
