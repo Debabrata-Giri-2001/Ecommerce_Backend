@@ -135,7 +135,7 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
     sendToken(user, 200, res);
 })
 
-// get self data
+// get self data if login then
 exports.getUserDetails = catchAsyncError(async (req, res, next) => {
     const token = req.cookies.token;
     const decoded = JWT.verify(token, process.env.JWT_SECRET);
@@ -146,17 +146,26 @@ exports.getUserDetails = catchAsyncError(async (req, res, next) => {
     });
 });
 
-// get all user details
+// get all user details - addmin
 exports.getAllUserDetails = async (req, res, next) => {
     try {
         const allUser = await User.find();
         const userCount = await User.countDocuments();
-
         res.status(200).json({
             success: true,
             users: allUser,
             userCount: userCount
         })
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+// delete user - admin
+exports.deleteUser = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        await User.findByIdAndDelete({ _id: id }, { new: true })
     } catch (error) {
         res.status(500).json(error)
     }
