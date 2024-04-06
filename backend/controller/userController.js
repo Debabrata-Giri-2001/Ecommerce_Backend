@@ -170,3 +170,47 @@ exports.deleteUser = async (req, res, next) => {
         res.status(500).json(error)
     }
 }
+
+exports.updatePassword = catchAsyncError(async (req, res, next) => {
+    const userId = req.params.id;
+    const user = await User.findById(userId).select('+password');
+
+    if (!user) {
+        return next(new ErrorHandelder('User not found', 404));
+    }
+
+    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+    if (!isPasswordMatched) {
+        return next(new ErrorHandelder("Old password is incorrect", 400));
+    }
+
+    if (req.body.newPassword !== req.body.confirmPassword) {
+        return next(new ErrorHandelder("Password does not match", 400));
+    }
+
+    user.password = req.body.newPassword;
+
+    await user.save();
+
+    sendToken(user, 200, res);
+});
+
+
+// update role - admin
+exports.updateUserRole = catchAsyncError(async (req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role,
+    };
+    await User.findByIdAndUpdate(req.params.id, newUserData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+    });
+
+    res.status(200).json({
+        success: true,
+    });
+});
