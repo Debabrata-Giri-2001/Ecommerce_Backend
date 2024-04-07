@@ -214,3 +214,23 @@ exports.updateUserRole = catchAsyncError(async (req, res, next) => {
         success: true,
     });
 });
+
+// update profle - all
+exports.updateProfile = catchAsyncError(async (req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+    };
+    console.log(newUserData)
+    const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+    })
+
+
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
