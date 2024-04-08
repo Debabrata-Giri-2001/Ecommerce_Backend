@@ -1,5 +1,6 @@
 import React from "react";
 import LogIn from "./pages/LogIn";
+
 function App() {
   return (
     <div className="App">
