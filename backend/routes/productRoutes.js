@@ -9,14 +9,15 @@ router
     .route("/products")
     .get(getAllProducts);
 router
-    .route("/product/new")
+    .route("/admin/product/new")
     .post(isAuthenticatedUser, authorizeRoles('admin'), createProducts)
 router
-    .route("/product/:id")
+    .route("/admin/product/:id")
     .put(isAuthenticatedUser, authorizeRoles('admin'), updateProduct)
     .delete(isAuthenticatedUser, authorizeRoles('admin'), deletProduct)
-    .get(isAuthenticatedUser, getProductDetails)
-
+    .get(isAuthenticatedUser, getProductDetails);
+    
+router.route('/product/:id').get(getAllProducts);
 // router.route("/product/:id").delete(deletProduct)
 
 module.exports = router;
