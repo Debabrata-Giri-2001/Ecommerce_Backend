@@ -2,6 +2,7 @@ import React from 'react'
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { BASE_URL } from '../hooks/useApi';
+import { Toaster, toast } from 'alert';
 
 
 const LoginSchema = [
@@ -42,6 +43,8 @@ const Login = () => {
     return accumulator;
   }, {});
 
+  const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
+
   const handleLogin = async (values) => {
     try {
       const res = await fetch(`${BASE_URL}/login`, {
@@ -54,13 +57,15 @@ const Login = () => {
           password: values.password,
         }),
       });
-
-      if (!res.ok) {
-        throw new Error(`Failed to fetch: ${res.statusText}`);
+      if (res.status === 200) {
+        toast.promise(promise, {
+          loading: 'Loading...',
+          success: 'Login Successfully',
+          error: 'An error occured',
+        });
       }
 
-      const data = await res.json();
-      console.log("Response Data:", data);
+      // const data = await res.json();
 
       // Optionally, you can return the data or perform further actions here
 
@@ -73,7 +78,7 @@ const Login = () => {
 
 
   return (
-    <div className="h-screen w-full bg-cover bg-no-repeat bg-top  flex justify-center items-center bg-slate-50">
+    <div className="h-screen w-full bg-cover bg-no-repeat bg-top  flex justify-center items-center bg-slate-100">
       <div className='backdrop-blur-lg  w-3/6 rounded-lg p-12 border-slate-300 border-2 shadow-lg bg-white'>
         <h1 class="text-2xl font-bold text-center mb-4  dark:text-gray-900">Welcome Back!</h1>
         <Formik
@@ -127,7 +132,7 @@ const Login = () => {
               <div className="flex flex-col items-start justify-between w-full gap-4">
                 <div className="w-full flex flex-row justify-center">
                   <button
-                    className={`p-2 ${formik.isSubmitting || !formik.isValid ? 'bg-slate-400' : 'bg-slate-700'} flex flex-row justify-center text-slate-100 font-bold font-serif text-xl w-[30%] ${formik.isSubmitting || !formik.isValid ? 'cursor-not-allowed' : 'cursor-pointer'} `}
+                    className={`p-2 ${formik.isSubmitting || !formik.isValid ? 'bg-slate-400' : 'bg-slate-700'} flex flex-row rounded-md justify-center text-slate-100 font-bold font-serif text-xl w-[30%] ${formik.isSubmitting || !formik.isValid ? 'cursor-not-allowed' : 'cursor-pointer'} `}
                     type="submit"
                     disabled={
                       formik.isSubmitting || !formik.isValid
@@ -160,6 +165,7 @@ const Login = () => {
           )}
         </Formik>
       </div>
+      <Toaster position='top-center' />
     </div>
   )
 }
