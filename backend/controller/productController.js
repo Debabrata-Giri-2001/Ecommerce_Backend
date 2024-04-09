@@ -1,6 +1,7 @@
 const Product = require('../model/productsModel')
 const Applications = require('../utils/apiFeatures')
 const ErrorHandelder = require('../utils/errorHnadeler')
+const catchAsyncError = require("../middleware/catchAsyncError");
 
 // creat products - only for admin
 exports.createProducts = async (req, res, next) => {
@@ -25,7 +26,7 @@ exports.getAllProducts = async (req, res) => {
         res.status(200).json({
             success: true,
             products: products,
-            productCount:productCount
+            productCount: productCount
         })
     } catch (error) {
         res.status(500).json(error)
@@ -70,8 +71,53 @@ exports.getProductDetails = async (req, res, next) => {
         if (!productDetails) {
             return next(new ErrorHandelder("Product Not Found", 404));
         }
-        res.status(200).json({succes:true,productDetails:productDetails});
+        res.status(200).json({ succes: true, productDetails: productDetails });
     } catch (error) {
         return next(new ErrorHandelder("Internal Server Error", 500));
     }
 };
+
+// create review and update
+exports.createProductReview = catchAsyncError(async (req, res, next) => {
+
+    const { rating, comment, productId } = req.body;
+
+    const review = {
+        user: req.user._id,
+        name: req.user.name,
+        rating: Number(rating),
+        comment,
+    }
+    const product = await Product.findById(productId);
+    if (!product) {
+        return res.status(404).json({ success: false, message: "Product not found" });
+    }
+
+    const isReviewed = product.reviews.find((rev) => {
+        return rev.user.toString() === req.user._id.toString();
+    });
+
+    if (isReviewed) {
+        product.reviews.forEach((rev) => {
+            if (rev.user.toString() === req.user._id.toString()) {
+                rev.rating = rating,
+                rev.comment = comment;
+            }
+        });
+    } else {
+        product.reviews.push(review);
+        product.numOfReviews = product.reviews.length;
+    }
+
+    // Calculate the new average rating
+    let avg = 0;
+    product.reviews.forEach((rev) => {
+        avg += Number(rev.rating);
+    });
+    product.rating = avg / product.numOfReviews;
+    await product.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+        success: true,
+    });
+})
