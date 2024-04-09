@@ -13,9 +13,11 @@ app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 // Routes Imports
 const product = require('./routes/productRoutes');
 const user = require('./routes/userRoutes');
+const order = require('./routes/orderRoutes');
 
 app.use('/api/v1',product);
 app.use('/api/v1',user);
+app.use('/api/v1',order);
 
 
 // middleware
