@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../redux/stores/ProductsSlice';
+import Loader from '../core/Loader';
+import Error from '../core/Error';
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -15,18 +17,14 @@ const Products = () => {
 
   // Render loading state
   if (status === 'loading') {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   // Render error state
   if (status === 'failed') {
-    return <div>Error: {error}</div>;
+    return <Error />;
   }
 
-  // Ensure that products is an array before calling map
-  if (!Array.isArray(products)) {
-    return <div>No products found</div>;
-  }
 
   console.log("data==>",products)
   return (
