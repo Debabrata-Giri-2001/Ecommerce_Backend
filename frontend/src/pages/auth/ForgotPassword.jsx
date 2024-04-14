@@ -110,13 +110,13 @@ const ForgotPassword = () => {
                                         </span>
                                         <div className="flex justify-between w-full">
                                             <div>
-                                                <a href="#21" className="group text-blue-600 transition duration-300 relative text-xl font-sans">
+                                                <a href="/register" className="group text-blue-600 transition duration-300 relative text-xl font-sans">
                                                     Register Now
                                                     <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 transform scale-x-0 transition-transform duration-500 group-hover:scale-x-100"></span>
                                                 </a>
                                             </div>
                                             <div>
-                                                <a href="#e21" className="group text-blue-800 transition duration-300 relative text-xl font-sans">
+                                                <a href="/" className="group text-blue-800 transition duration-300 relative text-xl font-sans">
                                                     Log In
                                                     <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-800 transform scale-x-0 transition-transform duration-500 group-hover:scale-x-100"></span>
                                                 </a>
