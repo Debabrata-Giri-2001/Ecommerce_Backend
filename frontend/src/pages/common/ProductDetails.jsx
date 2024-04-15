@@ -10,25 +10,25 @@ const ProductDetails = (props) => {
   let productId = params.id;
 
 
-    const dispatch = useDispatch();
-    const {productDetails} = useSelector(state => state.products.productDetails);
-    const status = useSelector(state => state.products.status);
-    // const error = useSelector(state => state.products.error);
+  const dispatch = useDispatch();
+  const { productDetails } = useSelector(state => state.products.productDetails);
+  const status = useSelector(state => state.products.status);
+  // const error = useSelector(state => state.products.error);
 
-    useEffect(() => {
-      dispatch(fetchProductDetails(productId));
-    }, [dispatch, productId]);
+  useEffect(() => {
+    dispatch(fetchProductDetails(productId));
+  }, [dispatch, productId]);
 
-    // Render loading state
-    if (status === 'loading') {
-      return <Loader />;
-    }
+  // Render loading state
+  if (status === 'loading') {
+    return <Loader />;
+  }
 
-    // Render error state
-    if (status === 'failed') {
-      return<Error />;
-    }
-    console.log(productDetails?.name)
+  // Render error state
+  if (status === 'failed') {
+    return <Error />;
+  }
+
   return (
     <div>
       <h1>Product Details</h1>
