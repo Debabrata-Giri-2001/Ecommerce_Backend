@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../redux/stores/ProductsSlice';
 import Loader from '../core/Loader';
 import Error from '../core/Error';
+import ProductCard from './ProductCard';
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -27,15 +28,15 @@ const Products = () => {
   }
 
   return (
-    <div>
-      <h1>Products</h1>
-      <ul>
+    <div className='mx-14 '>
+      <h1 className='font-bold text-2xl text-slate-500'>Products</h1>
+      <div className="flex flex-wrap justify-between my-4">
         {products.map(product => (
           <Link to={`/product/${product?._id}`}>
-            <li key={product.id}>{product.name}</li>
+            <ProductCard product={product} />
           </Link>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
