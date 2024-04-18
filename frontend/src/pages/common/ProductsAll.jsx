@@ -73,18 +73,18 @@ const ProductsAll = () => {
                         className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
                     />
                     <div className="flex justify-between text-sm">
-                        <span>$1</span>
-                        <span>$100</span>
+                        <span>₹1</span>
+                        <span>₹10000</span>
                     </div>
                 </div>
 
                 {/* Categories */}
                 <div className='mb-4'>
-                    <p className='text-sm font-medium text-gray-800 mb-2'>Categories</p>
+                    <p className='text-lg font-medium text-gray-800 mb-2'>Categories</p>
                     <ul>
                         {categories.map((category) => (
                             <li
-                                className="text-sm text-gray-600 cursor-pointer hover:text-[#ff6347] transition-colors duration-300"
+                                className="text-lg text-gray-600 cursor-pointer hover:text-[#ff6347] transition-colors duration-300"
                                 key={category}
                                 onClick={() => setCategory(category)}
                             >
