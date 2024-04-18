@@ -31,7 +31,7 @@ const Header = () => {
                         <span className="absolute bottom-0 left-0 w-full h-1 bg-color3 transform scale-x-0 transition-transform duration-500 group-hover:scale-x-100"></span>
                     </li>
                     <li className='m-1 p-2 relative group'>
-                        <NavLink onClick={() => setShowNav(!showNav)} to='/abha'>Product</NavLink>
+                        <NavLink onClick={() => setShowNav(!showNav)} to='/products'>Product</NavLink>
                         <span className="absolute bottom-0 left-0 w-full h-1 bg-color3 transform scale-x-0 transition-transform duration-500 group-hover:scale-x-100"></span>
                     </li>
                     <li className='m-1 p-2 relative group'>
