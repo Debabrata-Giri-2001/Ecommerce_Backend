@@ -19,7 +19,7 @@ exports.createProducts = async (req, res, next) => {
 exports.getAllProducts = async (req, res) => {
     try {
 
-        const resultPerPage = 5;
+        const resultPerPage = 10;
         const filterProduct = new Applications(Product.find(), req.query).searchData().filterData().pagination(resultPerPage);
         const productCount = await Product.countDocuments()
         const products = await filterProduct.query;
