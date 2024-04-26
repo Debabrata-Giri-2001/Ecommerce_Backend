@@ -54,7 +54,7 @@ const ProductsAll = () => {
         return <Error />;
     }
 
-    console.log(category)
+    // console.log(category)
     return (
         <div className='flex flex-row w-full h-fit'>
             {/* filter */}

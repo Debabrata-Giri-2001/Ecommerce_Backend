@@ -1,10 +1,11 @@
 import React from 'react'
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { BASE_URL } from '../../hooks/useApi';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useNavigate } from 'react-router-dom';
+import { LoginFun, setCreditional } from '../../redux/stores/AuthSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const LoginSchema = [
   {
@@ -32,8 +33,8 @@ const LoginSchema = [
 ];
 
 const Login = () => {
-
-  const notify = () => toast("Wow so easy!");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
 
   const initialValues = LoginSchema.reduce(function (accumulator, currentValue) {
@@ -46,34 +47,28 @@ const Login = () => {
     return accumulator;
   }, {});
 
-  const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
+  const status = useSelector(state => state.auth);
+  console.log(status)
 
   const handleLogin = async (values) => {
     try {
-      const res = await fetch(`${BASE_URL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-        }),
-      });
-      if (res.status === 200) {
-        
+      const result = await dispatch(LoginFun({ email: values?.email, password: values?.password }));
+      dispatch(setCreditional(result.payload));
+      if (status?.scccess === true) {
+        toast.success('Login Successful..');
+        navigate('/')
+      } else {
+        toast.error(status?.error);
       }
-
     } catch (error) {
-      notify()
-      console.log("ERROR:", error);
+      toast.error('Something went wrong.');
     }
   };
 
   return (
     <div className="h-screen w-full bg-cover bg-no-repeat bg-top  flex justify-center items-center bg-slate-100">
       <div className='backdrop-blur-lg  w-3/6 rounded-lg p-12 border-slate-300 border-2 shadow-lg bg-white'>
-        <h1 class="text-2xl font-bold text-center mb-4  dark:text-gray-900">Welcome Back!</h1>
+        <h1 className="text-2xl font-bold text-center mb-4  dark:text-gray-900">Welcome Back!</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={Yup.object(validationSchema)}
@@ -127,12 +122,18 @@ const Login = () => {
                   <button
                     className={`p-2 ${formik.isSubmitting || !formik.isValid ? 'bg-slate-400' : 'bg-slate-700'} flex flex-row rounded-md justify-center text-slate-100 font-bold font-serif text-xl w-[30%] ${formik.isSubmitting || !formik.isValid ? 'cursor-not-allowed' : 'cursor-pointer'} `}
                     type="submit"
-                    disabled={
-                      formik.isSubmitting || !formik.isValid
-                    }
+                    disabled={formik.isSubmitting || !formik.isValid}
                   >
-                    LOGIN
+                    {status?.loading ? (
+                      <svg className="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.96 7.96 0 014 12H0c0 4.418 3.582 8 8 8v-4zm8-9.457V6a8.014 8.014 0 01-3.535 6.465l1.414 1.414A6 6 0 1014 6.828zM5.414 6.828L4 5.414A8.014 8.014 0 016 0v3.543a5.978 5.978 0 00-1.586 3.285z"></path>
+                      </svg>
+                    ) : (
+                      'LOGIN'
+                    )}
                   </button>
+
                 </div>
                 <div className='w-full '>
                   <span className="flex w-full justify-center text-center text-slate-600 font-semibold text-xl">

@@ -71,7 +71,7 @@ const ProductDetails = () => {
   if (status === 'failed') {
     return <Error />;
   }
-  console.log("==>", data)
+  // console.log("==>", data)
   return (
     <>
 
