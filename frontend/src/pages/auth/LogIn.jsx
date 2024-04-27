@@ -4,8 +4,8 @@ import * as Yup from "yup";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { LoginFun, setCreditional } from '../../redux/stores/AuthSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { LoginFun,clearErrors,setCreditional } from '../../redux/stores/AuthSlice';
 
 const LoginSchema = [
   {
@@ -53,12 +53,12 @@ const Login = () => {
   const handleLogin = async (values) => {
     try {
       const result = await dispatch(LoginFun({ email: values?.email, password: values?.password }));
-      dispatch(setCreditional(result.payload));
-      if (status?.scccess === true) {
-        toast.success('Login Successful..');
-        navigate('/')
+      if (result.meta.requestStatus === 'fulfilled' && result.payload.scccess === true) {
+        dispatch(setCreditional(result?.payload));
+        toast.success('Login Successful.');
+        navigate('/');
       } else {
-        toast.error(status?.error);
+        toast.error(result?.payload?.error || 'Login Failed.');
       }
     } catch (error) {
       toast.error('Something went wrong.');

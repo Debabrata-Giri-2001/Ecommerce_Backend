@@ -1,22 +1,14 @@
-// AuthSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_URL } from "../../hooks/useApi";
 
-
-// handel login
+// Create Async Thunk for login
 export const LoginFun = createAsyncThunk(
     'auth/login',
     async (credentials) => {
-        const config = { headers: { "Content-Type": "application/json" } };
         try {
-            const response = await axios.post(`${BASE_URL}/login`, credentials, config);
-            const authData = {
-                scccess: response.data.scccess,
-                user: response.data.user,
-                token: response.data.token
-            };
-            return authData;
+            const response = await axios.post(`${BASE_URL}/login`, credentials);
+            return response.data;
         } catch (error) {
             console.error("Error:", error);
             throw error;
@@ -24,55 +16,45 @@ export const LoginFun = createAsyncThunk(
     }
 );
 
-
-// initial state
+// Initial state
 const initialState = {
-    scccess: null,
-    user: null,
-    token: null,
+    user: {},
     loading: false,
+    isAuthenticated: false,
     error: null
 };
 
+// Create auth slice
 const AuthSlice = createSlice({
     name: 'auth',
     initialState: initialState,
     reducers: {
-        setCreditional: (state, action) => {
-            const { scccess, user, token } = action.payload;
-            state.scccess = scccess;
-            state.user = user;
-            state.token = token;
+        clearErrors: (state) => {
+            state.error = null;
         },
-        logout: (state) => {
-            state.scccess = null;
-            state.user = null;
-            state.token = null;
+        setCreditional: (state, action) => {
+            state.user = action.payload.user;
         }
     },
     extraReducers: (builder) => {
         builder
             .addCase(LoginFun.pending, (state) => {
                 state.loading = true;
+                state.isAuthenticated = false;
                 state.error = null;
             })
             .addCase(LoginFun.fulfilled, (state, action) => {
-                state.scccess = 'succeeded'
-                const authData = action.payload;
-                if (authData) {
-                    state.loading = false;
-                    state.scccess = authData.scccess; 
-                    state.user = authData.user;
-                    state.token = authData.token;
-                }
-            })            
-            .addCase(LoginFun.rejected, (state, action) => {
-                state.loading = 'failed';
-                state.error = action.error;
+                state.loading = false;
+                state.isAuthenticated = true;
+                state.user = action.payload.user;
             })
+            .addCase(LoginFun.rejected, (state, action) => {
+                state.loading = false;
+                state.isAuthenticated = false;
+                state.error = action.error.message;
+            });
     }
-})
+});
 
-
-export const { setCreditional, logout } = AuthSlice.actions;
+export const { clearErrors,setCreditional } = AuthSlice.actions;
 export default AuthSlice.reducer;

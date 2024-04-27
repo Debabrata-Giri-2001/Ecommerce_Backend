@@ -6,7 +6,8 @@ import { BASE_URL } from "../../hooks/useApi";
 export const fetchProducts = createAsyncThunk(
     'products/fetchProducts',
     async () => {
-        const response = await axios.get(`${BASE_URL}/products`);
+        const url = `${BASE_URL}/products/`
+        const response = await axios.get(url);
         return response.data.products;
     }
 );
