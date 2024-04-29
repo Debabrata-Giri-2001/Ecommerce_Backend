@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import Darkmode from '../../config/Darkmode';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { IoMdClose } from "react-icons/io";
 import { CiSun, CiLight, CiMenuBurger } from "react-icons/ci";
+import { FaUser } from "react-icons/fa";
 
 const Header = () => {
     const [showNav, setShowNav] = useState(false);
     const [colorTheme, setTheme] = Darkmode();
+    const navigate = useNavigate();
 
     return (
         <div className='flex items-center justify-between  w-full z-50'>
@@ -39,7 +41,7 @@ const Header = () => {
                         <span className="absolute bottom-0 left-0 w-full h-1 bg-color3 transform scale-x-0 transition-transform duration-500 group-hover:scale-x-100"></span>
                     </li>
                     <li className='m-1 p-2 relative group'>
-                        <NavLink onClick={() => setShowNav(!showNav)} to='/verifycertificate'>Profile</NavLink>
+                        <NavLink onClick={() => setShowNav(!showNav)} to='/profile'>Profile</NavLink>
                         <span className="absolute bottom-0 left-0 w-full h-1 bg-color3 transform scale-x-0 transition-transform duration-500 group-hover:scale-x-100"></span>
                     </li>
                     <li className='m-1 p-2 relative group'>
@@ -52,8 +54,11 @@ const Header = () => {
 
             {/* Dark Toggle */}
             <div className='w-12 p-1'>
-                <span onClick={() => setTheme(colorTheme)}>
+                {/* <span onClick={() => setTheme(colorTheme)}>
                     {colorTheme === 'dark' ? <CiSun size={'30'} color='#d0e1d4' /> : <CiLight size={'30'} color='#1a1b25'  />}
+                </span> */}
+                <span className='cursor-pointer' onClick={()=>{navigate('/login')}}>
+                <FaUser size={'30'} color='#292a2b' />
                 </span>
             </div>
         </div>

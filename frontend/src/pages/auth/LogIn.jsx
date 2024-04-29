@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginFun,clearErrors,setCreditional } from '../../redux/stores/AuthSlice';
+import Cookies from 'js-cookie'
 
 const LoginSchema = [
   {
@@ -48,15 +49,16 @@ const Login = () => {
   }, {});
 
   const status = useSelector(state => state.auth);
-  console.log(status)
 
   const handleLogin = async (values) => {
     try {
       const result = await dispatch(LoginFun({ email: values?.email, password: values?.password }));
+      Cookies.set('token',result.payload.token)
+      console.log("res",result.payload)
       if (result.meta.requestStatus === 'fulfilled' && result.payload.scccess === true) {
         dispatch(setCreditional(result?.payload));
         toast.success('Login Successful.');
-        navigate('/');
+        navigate('/')
       } else {
         toast.error(result?.payload?.error || 'Login Failed.');
       }
