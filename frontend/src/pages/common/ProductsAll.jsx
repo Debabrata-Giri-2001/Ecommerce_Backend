@@ -15,16 +15,13 @@ const ProductsAll = () => {
     const status = useSelector(state => state.products.status);
     // const error = useSelector(state => state.products.error);
 
-    useEffect(() => {
-        // Dispatch the fetchProducts action when the component mounts
-        dispatch(fetchProducts());
-    }, [dispatch]);
-
+   
 
 
     const [priceValue, setPriceValue] = useState(1);
     const [category, setCategory] = useState("");
     const [ratings, setRatings] = useState(0);
+    const [inputQuery,setInputQuery] = useState("");
 
     // Function to handle slider value change
     const handlePrice = (event) => {
@@ -34,6 +31,15 @@ const ProductsAll = () => {
     const handelRate = (event) => {
         setRatings(event.target.value);
     }
+    const handelInputQuery=(event)=>{
+        setInputQuery(event.target.value)
+    }
+
+    useEffect(() => {
+        // Dispatch the fetchProducts action when the component mounts
+        dispatch(fetchProducts({ priceValue, category, ratings, inputQuery }));
+    }, [dispatch, priceValue, category, ratings, inputQuery]);
+    
 
     const categories = [
         "Laptop",
@@ -44,18 +50,16 @@ const ProductsAll = () => {
         "Camera",
         "SmartPhones",
     ];
-
     // Render loading state
     if (status === 'loading') {
         return <Loader />;
     }
-
     // Render error state
     if (status === 'failed') {
         return <Error />;
     }
 
-    // console.log(category)
+
     return (
         <>
             <Header />
@@ -63,6 +67,8 @@ const ProductsAll = () => {
                 {/* filter */}
                 <div className='w-[30%] bg-gray-100 h-[100vh] p-4 border-r border-gray-300 overflow-auto'>
                     <h2 className='text-lg font-semibold text-gray-800 mb-4'>Filter</h2>
+                    {/* unput data */}
+                    <input id='input-query' type='text' value={inputQuery} onChange={handelInputQuery} />
                     {/* Price Range */}
                     <div className='mb-4'>
                         <label htmlFor="price-range" className="block text-sm font-medium text-gray-800 mb-2">Price Range</label>

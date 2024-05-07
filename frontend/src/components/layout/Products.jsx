@@ -14,7 +14,7 @@ const Products = () => {
 
   useEffect(() => {
     // Dispatch the fetchProducts action when the component mounts
-    dispatch(fetchProducts());
+    dispatch(fetchProducts({}));
   }, [dispatch]);
 
   // Render loading state
@@ -26,7 +26,7 @@ const Products = () => {
   if (status === 'failed') {
     return <Error />;
   }
-
+  console.log("==>",products)
   return (
     <div className='mx-14 '>
       <h1 className='font-bold text-2xl text-slate-500'>Products</h1>
