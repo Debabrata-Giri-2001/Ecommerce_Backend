@@ -15,13 +15,13 @@ const ProductsAll = () => {
     const status = useSelector(state => state.products.status);
     // const error = useSelector(state => state.products.error);
 
-   
+
 
 
     const [priceValue, setPriceValue] = useState(1);
     const [category, setCategory] = useState("");
     const [ratings, setRatings] = useState(0);
-    const [inputQuery,setInputQuery] = useState("");
+    const [inputQuery, setInputQuery] = useState("");
 
     // Function to handle slider value change
     const handlePrice = (event) => {
@@ -31,7 +31,7 @@ const ProductsAll = () => {
     const handelRate = (event) => {
         setRatings(event.target.value);
     }
-    const handelInputQuery=(event)=>{
+    const handelInputQuery = (event) => {
         setInputQuery(event.target.value)
     }
 
@@ -39,7 +39,7 @@ const ProductsAll = () => {
         // Dispatch the fetchProducts action when the component mounts
         dispatch(fetchProducts({ priceValue, category, ratings, inputQuery }));
     }, [dispatch, priceValue, category, ratings, inputQuery]);
-    
+
 
     const categories = [
         "Laptop",
@@ -61,11 +61,12 @@ const ProductsAll = () => {
 
 
     return (
-        <>
+        <div className='h-full'>
             <Header />
-            <div className='flex flex-row w-full h-fit'>
+            <hr />
+            <div className='flex flex-row w-full mt-'>
                 {/* filter */}
-                <div className='w-[30%] bg-gray-100 h-[100vh] p-4 border-r border-gray-300 overflow-auto'>
+                <aside className='w-1/3 px-4 border-r border-gray-300 fixed h-full overflow-y-auto'>
                     <h2 className='text-lg font-semibold text-gray-800 mb-4'>Filter</h2>
                     {/* unput data */}
                     <input id='input-query' type='text' value={inputQuery} onChange={handelInputQuery} />
@@ -93,7 +94,7 @@ const ProductsAll = () => {
                         <ul>
                             {categories.map((category) => (
                                 <li
-                                    className="text-lg text-gray-600 cursor-pointer hover:text-[#ff6347] transition-colors duration-300"
+                                    className="text-lg text-gray-600 cursor-pointer hover:text-[#ff6347] hover:font-bold transition-colors duration-300"
                                     key={category}
                                     onClick={() => setCategory(category)}
                                 >
@@ -120,12 +121,13 @@ const ProductsAll = () => {
                             <span>5</span>
                         </div>
                     </div>
-                </div>
+                </aside>
                 {/* all products */}
-                <div className='w-[70%] h-screen overflow-y-auto '>
-                    <div className='flex flex-col gap-5 px-2'>
-                        <h1 className='font-bold text-2xl text-slate-500'>Products</h1>
-                        <div className="w-full grid items-center gap-7 grid-cols-4">
+                <main className='w-2/3 ml-[33.3333%] overflow-y-auto'>
+                    <div className='flex flex-col px-2'>
+                        <h1 className='font-bold text-2xl text-gray-800'>Products</h1>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                            {/* Product Cards */}
                             {products?.map(product => (
                                 <Link key={product?._id} to={`/product/${product?._id}`}>
                                     <ProductCard product={product} />
@@ -134,13 +136,13 @@ const ProductsAll = () => {
                         </div>
                     </div>
                     {/* Pagination */}
-                    <div className='flex flex-row space-x-3 justify-center py-2'>
-                        <button className='border-2 rounded-l-md p-2 w-24 border-slate-400 bg-slate-800 text-slate-50'>Previoud</button>
-                        <button className='border-2 rounded-r-md p-2 w-24 border-slate-400 bg-slate-800 text-slate-50'>Next</button>
+                    <div className='flex justify-center py-2'>
+                        <button className='border-2 rounded-l-md p-2 border-gray-400 bg-gray-800 text-gray-50'>Previous</button>
+                        <button className='border-2 rounded-r-md p-2 border-gray-400 bg-gray-800 text-gray-50'>Next</button>
                     </div>
-                </div>
+                </main>
             </div>
-        </>
+        </div>
 
     )
 }

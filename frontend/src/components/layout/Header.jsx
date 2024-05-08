@@ -57,7 +57,7 @@ const Header = () => {
                 {/* <span onClick={() => setTheme(colorTheme)}>
                     {colorTheme === 'dark' ? <CiSun size={'30'} color='#d0e1d4' /> : <CiLight size={'30'} color='#1a1b25'  />}
                 </span> */}
-                <span className='cursor-pointer' onClick={()=>{navigate('/login')}}>
+                <span className='cursor-pointer' onClick={()=>{navigate('/profile')}}>
                 <FaUser size={'30'} color='#292a2b' />
                 </span>
             </div>

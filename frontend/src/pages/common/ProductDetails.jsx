@@ -9,6 +9,7 @@ import { Rating } from 'react-simple-star-rating'
 import StarRatings from 'react-star-ratings';
 import RelatedProducts from '../../components/layout/RelatedProducts';
 import ProductsReviews from '../../components/layout/ProductsReviews';
+import Header from '../../components/layout/Header';
 
 
 const ProductDetails = () => {
@@ -74,7 +75,7 @@ const ProductDetails = () => {
   // console.log("==>", data)
   return (
     <>
-
+      <Header />
       <div className='px-2 py-4 flex flex-row'>
 
         <div className='w-[50%]'>
@@ -147,8 +148,8 @@ const ProductDetails = () => {
           <p
             onClick={() => setOpenRev(false)}
             className={`p-2 border-2 rounded-md shadow-md cursor-pointer transform transition duration-300 hover:scale-105 ${!openRev
-                ? 'border-orange-600 bg-orange-200'
-                : 'border-gray-400 bg-white'
+              ? 'border-orange-600 bg-orange-200'
+              : 'border-gray-400 bg-white'
               }`}
           >
             Review's
@@ -156,8 +157,8 @@ const ProductDetails = () => {
           <p
             onClick={() => setOpenRev(true)}
             className={`p-2 border-2 rounded-md shadow-md cursor-pointer  transform transition duration-300 hover:scale-105 ${openRev
-                ? 'border-orange-600 bg-orange-200'
-                : 'border-gray-400 bg-white'
+              ? 'border-orange-600 bg-orange-200'
+              : 'border-gray-400 bg-white'
               }`}
           >
             Related Product's
@@ -165,7 +166,7 @@ const ProductDetails = () => {
         </div>
         <hr />
         {/* Content */}
-        {openRev ? <RelatedProducts />:<ProductsReviews  /> }
+        {openRev ? <RelatedProducts /> : <ProductsReviews />}
       </div>
     </>
 
