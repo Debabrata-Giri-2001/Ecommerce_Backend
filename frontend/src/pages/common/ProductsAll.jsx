@@ -6,6 +6,7 @@ import { fetchProducts } from '../../redux/stores/ProductsSlice';
 import ProductCard from '../../components/layout/ProductCard';
 import { Link } from 'react-router-dom';
 import Header from '../../components/layout/Header';
+import EmptyData from '../../components/core/EmptyData';
 
 const ProductsAll = () => {
 
@@ -35,6 +36,13 @@ const ProductsAll = () => {
         setInputQuery(event.target.value)
     }
 
+    const handelReset = () => {
+        setCategory("")
+        setRatings(0)
+        setInputQuery("")
+        setPriceValue(1)
+    }
+
     useEffect(() => {
         // Dispatch the fetchProducts action when the component mounts
         dispatch(fetchProducts({ priceValue, category, ratings, inputQuery }));
@@ -59,6 +67,7 @@ const ProductsAll = () => {
         return <Error />;
     }
 
+    console.log("Q==>",inputQuery)
 
     return (
         <div className='h-full'>
@@ -121,26 +130,36 @@ const ProductsAll = () => {
                             <span>5</span>
                         </div>
                     </div>
+
+                    <button onClick={handelReset} className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 text-md px-4 rounded-md w-1/2">
+                        Reset
+                    </button>
                 </aside>
                 {/* all products */}
-                <main className='w-2/3 ml-[33.3333%] overflow-y-auto'>
-                    <div className='flex flex-col px-2'>
-                        <h1 className='font-bold text-2xl text-gray-800'>Products</h1>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                            {/* Product Cards */}
-                            {products?.map(product => (
-                                <Link key={product?._id} to={`/product/${product?._id}`}>
-                                    <ProductCard product={product} />
-                                </Link>
-                            ))}
+                {products.length === 0 ?
+                    <div className='w-2/3 ml-[33.3333%]'>
+                        <EmptyData />
+                    </div>
+                    :
+                    <main className='w-2/3 ml-[33.3333%] overflow-y-auto'>
+                        <div className='flex flex-col px-2'>
+                            <h1 className='font-bold text-2xl text-gray-800'>Products</h1>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                                {/* Product Cards */}
+                                {products?.map(product => (
+                                    <Link key={product?._id} to={`/product/${product?._id}`}>
+                                        <ProductCard product={product} />
+                                    </Link>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                    {/* Pagination */}
-                    <div className='flex justify-center py-2'>
-                        <button className='border-2 rounded-l-md p-2 border-gray-400 bg-gray-800 text-gray-50'>Previous</button>
-                        <button className='border-2 rounded-r-md p-2 border-gray-400 bg-gray-800 text-gray-50'>Next</button>
-                    </div>
-                </main>
+                        {/* Pagination */}
+                        <div className='flex justify-center py-2'>
+                            <button className='border-2 rounded-l-md p-2 border-gray-400 bg-gray-800 text-gray-50'>Previous</button>
+                            <button className='border-2 rounded-r-md p-2 border-gray-400 bg-gray-800 text-gray-50'>Next</button>
+                        </div>
+                    </main>
+                }
             </div>
         </div>
 

@@ -30,7 +30,7 @@ const ProductDetails = () => {
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [openRev, setOpenRev] = useState(true);
+  const [openRev, setOpenRev] = useState(false);
 
 
   const ratingOptions = {
