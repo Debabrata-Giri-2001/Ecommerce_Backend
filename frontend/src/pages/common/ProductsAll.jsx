@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useDeferredValue } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../components/core/Loader';
 import Error from '../../components/core/Error';
@@ -16,13 +16,11 @@ const ProductsAll = () => {
     const status = useSelector(state => state.products.status);
     // const error = useSelector(state => state.products.error);
 
-
-
-
     const [priceValue, setPriceValue] = useState(1);
     const [category, setCategory] = useState("");
     const [ratings, setRatings] = useState(0);
     const [inputQuery, setInputQuery] = useState("");
+
 
     // Function to handle slider value change
     const handlePrice = (event) => {
@@ -34,6 +32,10 @@ const ProductsAll = () => {
     }
     const handelInputQuery = (event) => {
         setInputQuery(event.target.value)
+    }
+
+    const handelInputSubmit = () => {
+        setInputQuery("");
     }
 
     const handelReset = () => {
@@ -67,7 +69,6 @@ const ProductsAll = () => {
         return <Error />;
     }
 
-    console.log("Q==>",inputQuery)
 
     return (
         <div className='h-full'>
@@ -78,7 +79,13 @@ const ProductsAll = () => {
                 <aside className='w-1/3 px-4 border-r border-gray-300 fixed h-full overflow-y-auto'>
                     <h2 className='text-lg font-semibold text-gray-800 mb-4'>Filter</h2>
                     {/* unput data */}
-                    <input id='input-query' type='text' value={inputQuery} onChange={handelInputQuery} />
+                    <div className='flex flex-row space-x-3'>
+                        <input id='input-query' type='text' value={inputQuery} onchange={handelInputQuery} />
+                        <button onClick={handelInputSubmit}>
+                            <img className='h-10 w-10' src="https://cdn-icons-png.flaticon.com/512/751/751463.png" alt="search" />
+                        </button>
+                    </div>
+
                     {/* Price Range */}
                     <div className='mb-4'>
                         <label htmlFor="price-range" className="block text-sm font-medium text-gray-800 mb-2">Price Range</label>
