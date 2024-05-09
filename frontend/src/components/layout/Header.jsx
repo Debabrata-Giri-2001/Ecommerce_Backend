@@ -8,6 +8,30 @@ import { FaUser } from "react-icons/fa";
 const Header = () => {
     const [showNav, setShowNav] = useState(false);
     const [colorTheme, setTheme] = Darkmode();
+
+    const [showOptions, setShowOptions] = useState(false);
+
+    const handleMouseEnter = () => {
+        setShowOptions(true);
+    };
+
+    const handleMouseLeave = () => {
+        setShowOptions(false);
+    };
+    const handleLogOut = () => {
+        // Split cookies into an array
+        const cookies = document.cookie.split(";");
+    
+        // Iterate over each cookie and remove it
+        cookies.forEach(cookie => {
+            const cookieParts = cookie.split("=");
+            const cookieName = cookieParts[0].trim();
+            document.cookie = `${cookieName}=token;`;
+        });
+    
+        // Navigate to the login page
+        navigate('/login');
+    };
     const navigate = useNavigate();
 
     return (
@@ -53,13 +77,18 @@ const Header = () => {
             </div>
 
             {/* Dark Toggle */}
-            <div className='w-12 p-1'>
-                {/* <span onClick={() => setTheme(colorTheme)}>
-                    {colorTheme === 'dark' ? <CiSun size={'30'} color='#d0e1d4' /> : <CiLight size={'30'} color='#1a1b25'  />}
-                </span> */}
-                <span className='cursor-pointer' onClick={()=>{navigate('/profile')}}>
-                <FaUser size={'30'} color='#292a2b' />
+            <div className='relative w-12 p-2 mr-2 border' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                <span onClick={() => navigate('/profile')} className='cursor-pointer'>
+                    <FaUser size={'30'} color='#292a2b' />
                 </span>
+                {showOptions && (
+                    <div className='absolute z-10 top-full -left-10 bg-white border border-gray-300 rounded-md shadow-md p-2 mt-1'>
+                        {/* Logout and Login options */}
+                        <button onClick={() => navigate('/profile')} className='block w-full text-left py-1 hover:bg-gray-100'>Profile</button>
+                        <button onClick={handleLogOut} className='block w-full text-left py-1 hover:bg-gray-100'>Logout</button>
+                        <button onClick={() => navigate('/login')} className='block w-full text-left py-1 hover:bg-gray-100'>Login</button>
+                    </div>
+                )}
             </div>
         </div>
     );
