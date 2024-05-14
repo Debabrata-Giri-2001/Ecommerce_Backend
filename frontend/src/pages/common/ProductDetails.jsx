@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProductDetails } from '../../redux/stores/ProductsSlice';
 import { useParams } from 'react-router-dom';
@@ -10,6 +10,7 @@ import StarRatings from 'react-star-ratings';
 import RelatedProducts from '../../components/layout/RelatedProducts';
 import ProductsReviews from '../../components/layout/ProductsReviews';
 import Header from '../../components/layout/Header';
+import RatingStar from '../../components/core/RatingStar';
 
 
 const ProductDetails = () => {
@@ -21,6 +22,9 @@ const ProductDetails = () => {
 
   const data = product?.productDetails;
 
+
+
+
   useEffect(() => {
     dispatch(fetchProductDetails(productId.id));
   }, [dispatch, productId.id]);
@@ -31,6 +35,16 @@ const ProductDetails = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [openRev, setOpenRev] = useState(false);
+
+
+  const [isPending, startTransition] = useTransition()
+  const [tab, setTab] = useState('about');
+
+  const selectTab = (nextTab) => {
+    startTransition(() => {
+      setTab(nextTab)
+    })
+  }
 
 
   const ratingOptions = {
@@ -54,14 +68,6 @@ const ProductDetails = () => {
   };
 
 
-  const addToCartHandler = () => {
-    // dispatch(addItemsToCart(match.params.id, quantity));
-
-  };
-  const changeRating = () => {
-
-  }
-
   const submitReviewToggle = () => {
     open ? setOpen(false) : setOpen(true);
   };
@@ -72,70 +78,50 @@ const ProductDetails = () => {
   if (status === 'failed') {
     return <Error />;
   }
-  // console.log("==>", data)
   return (
     <>
       <Header />
-      <div className='px-2 py-4 flex flex-row'>
+      <div className='px-2 py-4 flex flex-row justify-center'>
 
-        <div className='w-[50%]'>
+        <div className='w-[40%]'>
           <ImageSlide />
         </div>
 
         <div className='w-[50%]'>
-          <div className="">
-            <div>
-              <div className="space-y-2">
-                <p className='font-Ubuntu font-bold text-4xl text-cyan-900'>{data?.name}</p>
-                <p className='font-Ubuntu font-medium text-lg text-gray-400 underline'>Product #{data?._id}</p>
+          <div className="rounded overflow-hidden">
+            <div className="px-6 py-4">
+              <div className="text-2xl font-semibold font-Kanit mb-2">{data?.title}</div>
+              <div className="flex flex-row items-center space-x-1">
+                <RatingStar rating={data?.average_rating} size={18} />
+                <span className="font-Kanit font-normal text-xl">({data?.average_rating})</span>
               </div>
-              <div className="flex flex-row items-center space-x-2">
-                <StarRatings
-                  rating={3}
-                  starRatedColor="#f0a40c"
-                  changeRating={changeRating}
-                  numberOfStars={6}
-                  starDimension={'25px'}
-                  name='rating'
-                />
-                <p className="font-semibold">
-                  ({data?.numOfReview} Reviews)
-                </p>
-              </div>
-              <h1 className='font-bold font-Ubuntu text-3xl py-2 text-red-700'>{`₹${data?.price}`}</h1>
-              <div className="flex items-center">
-                <div className="flex items-center">
-                  <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" onClick={decreaseQuantity}>-</button>
-                  <input readOnly type="number" value={quantity} className="mx-4 py-2 border-2 rounded-md focus:outline-none  text-center" />
-                  <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" onClick={increaseQuantity}>+</button>
+              <p className="text-gray-700 font-Kanit text-3xl py-3 space-x-2">
+                <span className="font-light">${data?.actual_price}</span>
+                <span className='text-base'>({data?.discount})</span>
+              </p>
+              <hr />
+              {/* cart option size */}
+              <div className='py-2'>
+                <p className='font-Kanit font-light text-md py-3'>Available Size</p>
+                <div className='flex flex-row space-x-4'>
+                  <p className='bg-slate-900 text-slate-50 p-3 rounded-md font-bold font-Kanit'>S</p>
+                  <p className='bg-slate-900 text-slate-50 p-3 rounded-md font-bold font-Kanit'>M</p>
+                  <p className='bg-slate-900 text-slate-50 p-3 rounded-md font-bold font-Kanit'>L</p>
                 </div>
-                <button
-                  className="ml-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                  disabled={product?.stock < 1}
-                  onClick={addToCartHandler}
-                >
-                  Add to Cart
-                </button>
               </div>
-
-              <div className='flex flex-row space-x-3 text-xl py-2 '>
-                <p className=''>
-                  Status:
-                </p>
-                <p className={data?.stock < 1 ? "text-red-600" : "text-green-600"}>
-                  {data?.stock < 1 ? "OutOfStock" : "InStock"}
-                </p>
+              <hr className='my-3' />
+              {/* cart quanty */}
+              <div className='py-2'>
+                <p className='font-Kanit font-light text-md py-3'>-Make it's Your</p>
+                <div className='flex flex-row space-x-3'>
+                  <div className='flex flex-row border border-slate-500 p-2 space-x-4 w-fit rounded-md'>
+                    <p className='font-Kanit font-bold text-lg'>➖</p>
+                    <p className='font-Kanit font-light text-lg'>{1}</p>
+                    <p className='font-Kanit font-bold text-lg'>➕</p>
+                  </div>
+                  <p className='bg-slate-900 text-slate-50 p-3 rounded-md font-bold font-Kanit cursor-pointer'>Add to cart</p>
+                </div>
               </div>
-
-
-
-              <div className="py-3">
-                <p className='font-semibold text-xl text-slate-700'>Description : </p> <p className='text-slate-400 font-medium text-lg'>{data?.description}</p>
-              </div>
-
-              <button onClick={submitReviewToggle} className="">
-                Submit Review
-              </button>
             </div>
           </div>
         </div>
@@ -166,7 +152,6 @@ const ProductDetails = () => {
         </div>
         <hr />
         {/* Content */}
-        {openRev ? <RelatedProducts /> : <ProductsReviews />}
       </div>
     </>
 
