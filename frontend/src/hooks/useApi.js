@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
+
 export const BASE_URL = `http://localhost:8080/api/v1`;
 
 const getCookie = (cookieName) => {
@@ -10,10 +12,23 @@ const getCookie = (cookieName) => {
     return cookie ? cookie[1] : null;
 };
 
-// get data 
-export const useFetch = () => {
+export const useFetch = async (path) => {
+    const URL = BASE_URL;
+    let headers = {};
+    const token = getCookie('token');
+    if (token) {
+        headers['Content-Type'] = 'application/json';
+        headers['Authorization'] = `Bearer ${token}`;
+    }    
+    try {
+        const response = await axios.get(`${URL}/${path}`, { headers });
+        const data = response.data;
+        return data;
+    } catch (error) {
+        return error;
+    }
+};
 
-}
 
 // path - url_path,method - type of request
 export const useChage = () => {
@@ -21,7 +36,7 @@ export const useChage = () => {
     const chage = async (path, options) => {
         try {
             const token = getCookie('token')
-            console.log("token==>",token)
+            console.log("token==>", token)
             const method = options?.method || 'POST';
             const headers = {
                 'Set-Cookie': `token=${token}`,

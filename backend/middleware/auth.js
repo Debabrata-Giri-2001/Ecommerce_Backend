@@ -5,14 +5,12 @@ const JWT = require('jsonwebtoken')
 
 
 exports.isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
-    const { token } = req.cookies;
-
+    const token  = req.headers.authorization.replace(/^Bearer\s+/i, '');
     if (!token) {
         return next(new ErrorHandler('Please Login to access this resorce', 404))
     }
     const decodeData = JWT.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({ _id: decodeData.id });
-
     if (!user) {
         return next(new ErrorHandler('User not found', 404));
     }

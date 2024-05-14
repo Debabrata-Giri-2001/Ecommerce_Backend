@@ -137,7 +137,7 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
 
 // get self data if login then
 exports.getUserDetails = catchAsyncError(async (req, res, next) => {
-    const token = req.cookies.token;
+    const token = req.headers.authorization.replace(/^Bearer\s+/i, '');
     const decoded = JWT.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({ _id: decoded.id });
     res.status(200).json({
