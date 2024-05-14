@@ -83,7 +83,7 @@ const Profile = () => {
                 <p className='font-Ubuntu text-2xl'>Profile Details</p>
                 <div className='h-[60%]'>
                     {profileData?.map(i => (
-                        <div className='flex flex-row space-x-4 py-2 ml-auto mr-auto justify-between'>
+                        <div key={i?.id} className='flex flex-row space-x-4 py-2 ml-auto mr-auto justify-between'>
                             <p className='w-1/2 font-Ubuntu text-slate-700 '>{i?.title}</p>
                             <p className='w-1/2 font-Ubuntu text-slate-700 '>{i?.value}</p>
                         </div>
