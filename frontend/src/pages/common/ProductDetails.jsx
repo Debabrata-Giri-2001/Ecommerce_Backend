@@ -9,8 +9,11 @@ import { Rating } from 'react-simple-star-rating'
 import StarRatings from 'react-star-ratings';
 import RelatedProducts from '../../components/layout/RelatedProducts';
 import ProductsReviews from '../../components/layout/ProductsReviews';
+import ProductsDetails from '../../components/layout/ProductsDetails';
 import Header from '../../components/layout/Header';
 import RatingStar from '../../components/core/RatingStar';
+import { FaPlus, FaMinus } from "react-icons/fa6";
+import TabButton from '../../components/layout/TabButton';
 
 
 const ProductDetails = () => {
@@ -68,9 +71,6 @@ const ProductDetails = () => {
   };
 
 
-  const submitReviewToggle = () => {
-    open ? setOpen(false) : setOpen(true);
-  };
 
   if (status === 'loading') {
     return <Loader />;
@@ -114,10 +114,14 @@ const ProductDetails = () => {
               <div className='py-2'>
                 <p className='font-Kanit font-light text-md py-3'>-Make it's Your</p>
                 <div className='flex flex-row space-x-3'>
-                  <div className='flex flex-row border border-slate-500 p-2 space-x-4 w-fit rounded-md'>
-                    <p className='font-Kanit font-bold text-lg'>➖</p>
+                  <div className='flex flex-row border border-slate-500 p-2 space-x-4 w-fit rounded-md items-center'>
+                    <div className='cursor-pointer'>
+                      <FaMinus />
+                    </div>
                     <p className='font-Kanit font-light text-lg'>{1}</p>
-                    <p className='font-Kanit font-bold text-lg'>➕</p>
+                    <div className='cursor-pointer'>
+                      <FaPlus />
+                    </div>
                   </div>
                   <p className='bg-slate-900 text-slate-50 p-3 rounded-md font-bold font-Kanit cursor-pointer'>Add to cart</p>
                 </div>
@@ -128,30 +132,26 @@ const ProductDetails = () => {
       </div>
       {/* review and related componets  */}
 
-      <div>
-        {/* Button */}
-        <div className='flex flex-row space-x-2 py-2 px-2'>
-          <p
-            onClick={() => setOpenRev(false)}
-            className={`p-2 border-2 rounded-md shadow-md cursor-pointer transform transition duration-300 hover:scale-105 ${!openRev
-              ? 'border-orange-600 bg-orange-200'
-              : 'border-gray-400 bg-white'
-              }`}
-          >
-            Review's
-          </p>
-          <p
-            onClick={() => setOpenRev(true)}
-            className={`p-2 border-2 rounded-md shadow-md cursor-pointer  transform transition duration-300 hover:scale-105 ${openRev
-              ? 'border-orange-600 bg-orange-200'
-              : 'border-gray-400 bg-white'
-              }`}
-          >
-            Related Product's
-          </p>
+      <hr />
+      <div className='flex justify-center items-center'>
+        <div className='flex flex-row justify-between w-2/3 border-b border-color1'>
+          {/* Button */}
+          <TabButton isActive={tab === "about"} onClick={() => selectTab("about")}>
+            About
+          </TabButton>
+          <TabButton isActive={tab === "relatedP"} onClick={() => selectTab("relatedP")}>
+            Related Products
+          </TabButton>
+          <TabButton isActive={tab === "review"} onClick={() => selectTab("review")}>
+            Review
+          </TabButton>
         </div>
-        <hr />
         {/* Content */}
+      </div>
+      <div>
+        {tab === "about" && <ProductsDetails data={data} />}
+        {tab === "relatedP" && <RelatedProducts />}
+        {tab === "review" && <ProductsReviews />}
       </div>
     </>
 
