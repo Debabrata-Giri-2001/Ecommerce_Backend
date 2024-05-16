@@ -5,14 +5,15 @@ import { BASE_URL } from "../../hooks/useApi";
 // Async thunk to fetch products
 export const fetchProducts = createAsyncThunk(
     'products/fetchProducts',
-    async ({ priceValue, category, ratings, inputQuery }) => {
+    async ({ priceValue, category, ratings, inputQuery,page }) => {
         const url = `${BASE_URL}/products?` +
-            `${priceValue ? `price[gt]=${priceValue}&` : ''}` +
+            `${priceValue ? `selling_price[gt]=${Number(priceValue)}&` : ''}` +
             `${category ? `category=${category}&` : ''}` +
             `${ratings ? `ratings=${ratings}&` : ''}` +
-            `${inputQuery ? `keyword=${inputQuery}` : ''}`;
+            `${inputQuery ? `keyword=${inputQuery}` : ''}`+
+            `${page ? `page=${page}`:''}`;
         const response = await axios.get(url);
-        return response.data.products;
+        return response.data;
     }
 );
 
