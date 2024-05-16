@@ -31,7 +31,7 @@ const Products = () => {
     <div className='mx-14 '>
       <h1 className='font-bold text-2xl text-slate-500'>Products</h1>
       <div className="grid items-center grid-cols-5">
-        {products.map(product => (
+        {products?.products?.map(product => (
           <Link to={`/product/${product?._id}`}>
             <ProductCard product={product} />
           </Link>
