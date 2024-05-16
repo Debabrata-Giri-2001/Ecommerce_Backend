@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Header from '../../components/layout/Header'
 import { useDispatch, useSelector } from 'react-redux';
 import { currentUserFetch } from '../../redux/stores/CurrentUserSlice';
@@ -69,6 +69,7 @@ const Profile = () => {
             'value': '- not added -'
         }
     ]
+    console.log("user==>",user)
     return (
         <div className="h-[100vh]">
             <Header />
