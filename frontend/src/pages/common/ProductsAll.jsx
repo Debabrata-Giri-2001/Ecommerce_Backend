@@ -7,9 +7,9 @@ import ProductCard from '../../components/layout/ProductCard';
 import { Link } from 'react-router-dom';
 import Header from '../../components/layout/Header';
 import EmptyData from '../../components/core/EmptyData';
-import { MdOutlineFilterList, MdOutlineFilterListOff } from "react-icons/md";
+import { MdOutlineFilterList } from "react-icons/md";
 import RatingStar from '../../components/core/RatingStar';
-
+// MdOutlineFilterListOff
 
 const ProductsAll = () => {
 
@@ -84,7 +84,6 @@ const ProductsAll = () => {
 
     const categories = [
         "Clothing and Accessories",
-        "Clothing and Accessories",
         "Bags, Wallets & Belts",
         "Footwear",
         "Toys",
@@ -110,16 +109,16 @@ const ProductsAll = () => {
                 {/* filter */}
                 {openMenu && (
                     <aside className='w-[20%] px-4 border-r border-gray-300 h-full overflow-y-auto'>
-                        <filterDiv className='flex flex-row justify-between'>
+                        <div className='flex flex-row justify-between'>
                             <h2 className='text-lg font-semibold text-gray-800 mb-4 font-Kanit'>Filter</h2>
                             <p onClick={() => { setOpneMenu(!openMenu) }} className='cursor-pointer'>
                                 <MdOutlineFilterList size={22} color='#121212' />
                             </p>
-                        </filterDiv>
+                        </div>
                         <hr className='my-5' />
                         {/* unput data */}
                         <div className='flex justify-between py-1 px-2 border rounded-md'>
-                            <input id='input-query' type='text' className='outline-none border-none' placeholder='search...' value={inputQuery} onchange={handelInputQuery} />
+                            <input id='input-query' type='text' className='outline-none border-none' placeholder='search...' value={inputQuery} onChange={handelInputQuery} />
                             <button onClick={handelInputSubmit}>
                                 <img className='h-10 w-10' src="https://cdn-icons-png.flaticon.com/512/751/751463.png" alt="search" />
                             </button>
@@ -166,7 +165,7 @@ const ProductsAll = () => {
                             <hr />
                             <div className='py-2'>
                                 {ratingCategory?.map(i => (
-                                    <div onClick={()=>{setRatings(i)}} className="flex flex-row items-center space-x-1 py-1 cursor-pointer">
+                                    <div key={i} onClick={()=>{setRatings(i)}} className="flex flex-row items-center space-x-1 py-1 cursor-pointer">
                                         <RatingStar rating={i} size={18} />
                                         <span className="font-Kanit font-normal text-md text-amber-900">(& up)</span>
                                     </div>
@@ -203,11 +202,11 @@ const ProductsAll = () => {
                             {/* Pagination */}
                             <div className="flex justify-center border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
                                 <div className="flex items-center">
-                                    <pagination className="isolate inline-flex -space-x-px rounded-md shadow-sm " >
+                                    <div className="isolate inline-flex -space-x-px rounded-md shadow-sm " >
                                         <p onClick={() => { setPage(page - 1) }} className="cursor-pointer relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
                                             <span className="sr-only">Previous</span>
                                             <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                                                <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
                                             </svg>
                                         </p>
                                         {visiblePages.map((i) => (
@@ -230,10 +229,10 @@ const ProductsAll = () => {
                                         <p onClick={() => { setPage(page + 1) }} className="cursor-pointer relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
                                             <span className="sr-only">Next</span>
                                             <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                                                <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
                                             </svg>
                                         </p>
-                                    </pagination>
+                                    </div>
                                 </div>
                             </div>
                         </main>
@@ -246,4 +245,4 @@ const ProductsAll = () => {
     )
 }
 
-export default ProductsAll
+export default ProductsAll;

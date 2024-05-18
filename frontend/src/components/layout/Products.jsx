@@ -32,7 +32,7 @@ const Products = () => {
       <h1 className='font-bold text-2xl text-slate-500'>Products</h1>
       <div className="grid items-center grid-cols-5">
         {products?.products?.map(product => (
-          <Link to={`/product/${product?._id}`}>
+          <Link key={product?._id} to={`/product/${product?._id}`}>
             <ProductCard product={product} />
           </Link>
         ))}
