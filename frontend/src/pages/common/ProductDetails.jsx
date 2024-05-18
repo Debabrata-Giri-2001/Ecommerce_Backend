@@ -5,8 +5,6 @@ import { useParams } from 'react-router-dom';
 import Loader from '../../components/core/Loader';
 import Error from '../../components/core/Error';
 import ImageSlide from '../../components/layout/ImageSlide';
-import { Rating } from 'react-simple-star-rating'
-import StarRatings from 'react-star-ratings';
 import RelatedProducts from '../../components/layout/RelatedProducts';
 import ProductsReviews from '../../components/layout/ProductsReviews';
 import ProductsDetails from '../../components/layout/ProductsDetails';
@@ -14,7 +12,7 @@ import Header from '../../components/layout/Header';
 import RatingStar from '../../components/core/RatingStar';
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import TabButton from '../../components/layout/TabButton';
-import { increaseProducts, decreaseProducts, addToCartProducts, remove } from '../../redux/stores/cartsSlice';
+import { increaseProducts, decreaseProducts, addToCartProducts } from '../../redux/stores/cartsSlice';
 
 
 const ProductDetails = () => {
@@ -23,37 +21,23 @@ const ProductDetails = () => {
   const product = useSelector(state => state.products.productDetails);
   const status = useSelector(state => state.products.status);
   // const error = useSelector(state => state.products.error);
-  const productsCart = useSelector(state => state.cart)
-
-
+  const cart = useSelector(state => state.cart);
   const data = product?.productDetails;
-
-
-
+  const productData = cart.find(item => item.id === data._id);
 
   useEffect(() => {
     dispatch(fetchProductDetails(productId.id));
   }, [dispatch, productId.id]);
 
 
-  const [quantityP, setQuantityP] = useState(1);
-  const [open, setOpen] = useState(false);
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
-  const [openRev, setOpenRev] = useState(false);
-
-
   const [isPending, startTransition] = useTransition()
   const [tab, setTab] = useState('about');
-
+  console.log("useTransition",isPending)
   const selectTab = (nextTab) => {
     startTransition(() => {
       setTab(nextTab)
     })
   }
-
-  const cart = useSelector(state => state.cart);
-  const productData = cart.find(item => item.id === data._id);
 
   const increaseQuantity = (id) => {
     dispatch(increaseProducts(id));
