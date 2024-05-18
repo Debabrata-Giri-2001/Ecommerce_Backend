@@ -14,6 +14,7 @@ import Header from '../../components/layout/Header';
 import RatingStar from '../../components/core/RatingStar';
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import TabButton from '../../components/layout/TabButton';
+import { increaseProducts, decreaseProducts, addToCartProducts, remove } from '../../redux/stores/cartsSlice';
 
 
 const ProductDetails = () => {
@@ -22,6 +23,8 @@ const ProductDetails = () => {
   const product = useSelector(state => state.products.productDetails);
   const status = useSelector(state => state.products.status);
   // const error = useSelector(state => state.products.error);
+  const productsCart = useSelector(state => state.cart)
+
 
   const data = product?.productDetails;
 
@@ -33,7 +36,7 @@ const ProductDetails = () => {
   }, [dispatch, productId.id]);
 
 
-  const [quantity, setQuantity] = useState(1);
+  const [quantityP, setQuantityP] = useState(1);
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -49,28 +52,20 @@ const ProductDetails = () => {
     })
   }
 
+  const cart = useSelector(state => state.cart);
+  const productData = cart.find(item => item.id === data._id);
 
-  const ratingOptions = {
-    size: 25,
-    initialValue: data?.rating,
-
+  const increaseQuantity = (id) => {
+    dispatch(increaseProducts(id));
   };
 
-  const increaseQuantity = () => {
-    if (product.Stock <= quantity) return;
-
-    const qty = quantity + 1;
-    setQuantity(qty);
+  const decreaseQuantity = (id) => {
+    dispatch(decreaseProducts(id));
   };
 
-  const decreaseQuantity = () => {
-    if (1 >= quantity) return;
-
-    const qty = quantity - 1;
-    setQuantity(qty);
-  };
-
-
+  const addToCartPro = (product) => {
+    dispatch(addToCartProducts(product));
+  }
 
   if (status === 'loading') {
     return <Loader />;
@@ -115,15 +110,17 @@ const ProductDetails = () => {
                 <p className='font-Kanit font-light text-md py-3'>-Make it's Your</p>
                 <div className='flex flex-row space-x-3'>
                   <div className='flex flex-row border border-slate-500 p-2 space-x-4 w-fit rounded-md items-center'>
-                    <div className='cursor-pointer'>
+                    <div onClick={() => { decreaseQuantity(data?._id) }} className='cursor-pointer'>
                       <FaMinus />
                     </div>
-                    <p className='font-Kanit font-light text-lg'>{1}</p>
-                    <div className='cursor-pointer'>
+                    <p className='font-Kanit font-light text-lg'>{productData ? productData?.quantity : 0}</p>
+                    <div onClick={() => { increaseQuantity(data?._id) }} className='cursor-pointer'>
                       <FaPlus />
                     </div>
                   </div>
-                  <p className='bg-slate-900 text-slate-50 p-3 rounded-md font-bold font-Kanit cursor-pointer'>Add to cart</p>
+                  <p
+                    onClick={() => addToCartPro({ id: data._id, data: data })}
+                    className='bg-slate-900 text-slate-50 p-3 rounded-md font-bold font-Kanit cursor-pointer'>Add to cart</p>
                 </div>
               </div>
             </div>

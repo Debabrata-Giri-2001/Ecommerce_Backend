@@ -7,6 +7,7 @@ import LogIn from '../pages/auth/LogIn';
 import ForgotPassword from '../pages/auth/ForgotPassword';
 import Register from '../pages/auth/Register';
 import Profile from '../pages/private/Profile';
+import Carts from '../pages/common/Carts';
 
 const Routes = () => {
     return (
@@ -20,6 +21,7 @@ const Routes = () => {
                     <Route path='/register' element={<Register />} />
                     <Route path='/forgot-password' element={<ForgotPassword />} />
                     <Route path='/profile' element={<Profile />} />
+                    <Route path='/carts' element={<Carts />} />
                 </Rtrs>
             </Router>
         </>
