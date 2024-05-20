@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { BrowserRouter as Router, Routes as Rtrs, Route } from 'react-router-dom';
 import Home from '../pages/common/Home';
 import ProductDetails from '../pages/common/ProductDetails';
@@ -9,12 +9,20 @@ import Register from '../pages/auth/Register';
 import Profile from '../pages/private/Profile';
 import Carts from '../pages/common/Carts';
 import Faq from '../pages/common/Faq';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { currentUserFetch } from '../redux/stores/CurrentUserSlice';
 
 const Routes = () => {
 
+    const dispatch = useDispatch();
     const user = useSelector(state => state.currentUser.user)
-    console.log("user---->",user)
+
+    useEffect(() => {
+        dispatch(currentUserFetch());
+    }, [dispatch]);
+
+    console.log("USER===>>",user)
+    
     return (
         <>
             <Router>

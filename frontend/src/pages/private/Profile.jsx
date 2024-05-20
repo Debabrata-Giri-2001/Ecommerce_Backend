@@ -69,7 +69,7 @@ const Profile = () => {
             'value': '- not added -'
         }
     ]
-    console.log("user==>",user)
+    console.log("user-",user)
     return (
         <div className="h-[100vh]">
             <Header />
