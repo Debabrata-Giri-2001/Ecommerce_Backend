@@ -26,7 +26,7 @@ const Profile = () => {
     if (status === 'failed') {
         return <Error />;
     }
-
+    
     const profileData = [
         {
             'id': '1',
@@ -69,14 +69,14 @@ const Profile = () => {
             'value': '- not added -'
         }
     ]
-    console.log("user-",user)
+
     return (
         <div className="h-[100vh]">
             <Header />
             {/* profile deiv */}
             <div className='mx-7'>
                 <p className='font-extrabold font-sans text-slate-800 '>Account</p>
-                <p className='font-sans text-slate-800'>Debabrata Giri</p>
+                <p className='font-sans text-slate-800'>{user?.user?.name}</p>
             </div>
             <hr />
             {/* profile  */}
