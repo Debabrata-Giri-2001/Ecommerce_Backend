@@ -25,6 +25,23 @@ const userSchema = new mongoose.Schema({
         minlength: [6, "password should be grater then 6"],
         select: false,
     },
+    phone:{
+        type:Number,
+        required:[true, "Enter your mobile number"],
+        maxlength:[12,"Number max be 12 digits"],
+        minlength:[10,"Number min be 10 digits"]
+    },
+    phone2:{
+        type:Number,
+        maxlength:[12,"Number max be 12 digits"],
+        minlength:[10,"Number min be 10 digits"]
+    },
+    gender:{
+        type:String,
+    },
+    dob:{
+        type:Date,
+    },
     avatar: {
         public_id: {
             type: String,
