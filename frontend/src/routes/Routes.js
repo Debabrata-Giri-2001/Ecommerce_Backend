@@ -8,6 +8,7 @@ import ForgotPassword from '../pages/auth/ForgotPassword';
 import Register from '../pages/auth/Register';
 import Profile from '../pages/private/Profile';
 import Carts from '../pages/common/Carts';
+import Faq from '../pages/common/Faq';
 import { useSelector } from 'react-redux';
 
 const Routes = () => {
@@ -26,6 +27,7 @@ const Routes = () => {
                     <Route path='/forgot-password' element={<ForgotPassword />} />
                     <Route path='/profile' element={<Profile />} />
                     <Route path='/carts' element={<Carts />} />
+                    <Route path='/faq' element={<Faq />} />
                 </Rtrs>
             </Router>
         </>
