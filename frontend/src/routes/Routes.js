@@ -8,8 +8,12 @@ import ForgotPassword from '../pages/auth/ForgotPassword';
 import Register from '../pages/auth/Register';
 import Profile from '../pages/private/Profile';
 import Carts from '../pages/common/Carts';
+import { useSelector } from 'react-redux';
 
 const Routes = () => {
+
+    const user = useSelector(state => state.currentUser.user)
+    console.log("user---->",user)
     return (
         <>
             <Router>

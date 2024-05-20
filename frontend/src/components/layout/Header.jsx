@@ -1,38 +1,50 @@
-import React, { useState } from 'react';
-import Darkmode from '../../config/Darkmode';
+import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { IoMdClose } from "react-icons/io";
-import { CiSun, CiLight, CiMenuBurger } from "react-icons/ci";
+import { CiMenuBurger } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+
+    const user = useSelector(state => state.currentUser.user)
+
     const [showNav, setShowNav] = useState(false);
-    const [colorTheme, setTheme] = Darkmode();
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    const navigate = useNavigate();
 
-    const [showOptions, setShowOptions] = useState(false);
 
-    const handleMouseEnter = () => {
-        setShowOptions(true);
+    const handleToggle = () => {
+        setIsOpen(!isOpen);
     };
 
-    const handleMouseLeave = () => {
-        setShowOptions(false);
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsOpen(false);
+        }
     };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     const handleLogOut = () => {
         // Split cookies into an array
         const cookies = document.cookie.split(";");
-    
+
         // Iterate over each cookie and remove it
         cookies.forEach(cookie => {
             const cookieParts = cookie.split("=");
             const cookieName = cookieParts[0].trim();
             document.cookie = `${cookieName}=token;`;
         });
-    
         // Navigate to the login page
         navigate('/login');
     };
-    const navigate = useNavigate();
 
     return (
         <div className='flex items-center justify-between  w-full z-50'>
@@ -77,18 +89,57 @@ const Header = () => {
             </div>
 
             {/* Dark Toggle */}
-            <div className='relative w-12 p-2 mr-2 border' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                <span onClick={() => navigate('/profile')} className='cursor-pointer'>
-                    <FaUser size={'30'} color='#292a2b' />
-                </span>
-                {showOptions && (
-                    <div className='absolute z-10 top-full -left-10 bg-white border border-gray-300 rounded-md shadow-md p-2 mt-1'>
-                        {/* Logout and Login options */}
-                        <button onClick={() => navigate('/profile')} className='block w-full text-left py-1 hover:bg-gray-100'>Profile</button>
-                        <button onClick={handleLogOut} className='block w-full text-left py-1 hover:bg-gray-100'>Logout</button>
-                        <button onClick={() => navigate('/login')} className='block w-full text-left py-1 hover:bg-gray-100'>Login</button>
-                    </div>
-                )}
+            <div className="relative inline-block text-left" ref={dropdownRef}>
+                <div
+                    onClick={handleToggle}
+                    className=" border focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center "
+                    type="button"
+                >
+                    <FaUser size={22} />
+                    <svg
+                        className={`w-2.5 h-2.5 ml-3 transition-transform transform ${isOpen ? 'rotate-180' : ''}`}
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 10 6"
+                    >
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                    </svg>
+                </div>
+
+                {/* Dropdown menu */}
+                <div
+                    className={`absolute right-0 z-10 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 transition-opacity duration-200 ease-in-out ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                        }`}
+                >
+                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+                        {user ?
+                            <>
+                                <li>
+                                    <p onClick={()=>{navigate('/profile')}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        Profile
+                                    </p>
+                                </li>
+                                <li>
+                                    <p onClick={handleLogOut} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        Logout
+                                    </p>
+                                </li>
+                                <li>
+                                    <p onClick={()=>{navigate('/forgot-password')}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        Change Password
+                                    </p>
+                                </li>
+                            </>
+                            :
+                            <li>
+                                <p onClick={()=>{navigate('/login')}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    Login
+                                </p>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
     );
