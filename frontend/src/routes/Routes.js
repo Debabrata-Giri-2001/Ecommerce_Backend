@@ -11,6 +11,8 @@ import Carts from '../pages/common/Carts';
 import Faq from '../pages/common/Faq';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentUserFetch } from '../redux/stores/CurrentUserSlice';
+import Dashboard from '../pages/admin/Dashboard';
+import NewProduct from '../pages/admin/NewProduct';
 
 const Routes = () => {
 
@@ -36,6 +38,9 @@ const Routes = () => {
                     <Route path='/profile' element={<Profile />} />
                     <Route path='/carts' element={<Carts />} />
                     <Route path='/faq' element={<Faq />} />
+
+                    <Route path='/admin/dashboard' element={<Dashboard   />} />
+                    <Route path='/admin/new-product' element={<NewProduct />} />
                 </Rtrs>
             </Router>
         </>
