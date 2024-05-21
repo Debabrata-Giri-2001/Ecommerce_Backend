@@ -19,6 +19,7 @@ import ProductList from '../pages/admin/ProductList';
 import ProductReviews from '../pages/admin/ProductReviews';
 import UpdateProduct from '../pages/admin/UpdateProduct';
 import UpdateUser from '../pages/admin/UpdateUser';
+import UsersList from '../pages/admin/UsersList';
 const Routes = () => {
 
     const dispatch = useDispatch();
@@ -52,6 +53,7 @@ const Routes = () => {
                     <Route path='/admin/product-reviews' element={<ProductReviews />} />
                     <Route path='/admin/update-product' element={<UpdateProduct />} />
                     <Route path='/admin/update-user' element={<UpdateUser />} />
+                    <Route path='/admin/users-list' element={<UsersList />} />
                 </Rtrs>
             </Router>
         </>
