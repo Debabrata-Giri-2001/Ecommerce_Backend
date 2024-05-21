@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { currentUserFetch } from '../redux/stores/CurrentUserSlice';
 import Dashboard from '../pages/admin/Dashboard';
 import NewProduct from '../pages/admin/NewProduct';
-
+import OrderList from '../pages/admin/OrderList';
 const Routes = () => {
 
     const dispatch = useDispatch();
@@ -41,6 +41,7 @@ const Routes = () => {
 
                     <Route path='/admin/dashboard' element={<Dashboard   />} />
                     <Route path='/admin/new-product' element={<NewProduct />} />
+                    <Route path='/admin/order-list' element={<OrderList />} />
                 </Rtrs>
             </Router>
         </>
