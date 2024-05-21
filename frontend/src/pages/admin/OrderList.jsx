@@ -75,7 +75,7 @@ const OrderList = () => {
     <Fragment>
       <TitleHeader title={`ALL ORDERS - Admin`} />
       <div className="p-4">
-        <h1 className="text-2xl font-semibold mb-4">ALL ORDERS</h1>
+        <h1 className="text-2xl font-Kanit mb-4">ALL ORDERS</h1>
         <DataGrid
           rows={rows}
           columns={columns}
