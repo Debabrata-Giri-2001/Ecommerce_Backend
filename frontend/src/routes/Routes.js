@@ -16,6 +16,7 @@ import NewProduct from '../pages/admin/NewProduct';
 import OrderList from '../pages/admin/OrderList';
 import ProcessOrder from '../pages/admin/ProcessOrder';
 import ProductList from '../pages/admin/ProductList';
+import ProductReviews from '../pages/admin/ProductReviews';
 const Routes = () => {
 
     const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const Routes = () => {
                     <Route path='/admin/order-list' element={<OrderList />} />
                     <Route path='/admin/process-order' element={<ProcessOrder />} />
                     <Route path='/admin/product-list' element={<ProductList />} />
+                    <Route path='/admin/product-reviews' element={<ProductReviews />} />
                 </Rtrs>
             </Router>
         </>
