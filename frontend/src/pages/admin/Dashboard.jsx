@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import { Doughnut, Line } from "react-chartjs-2";
+import SideBar from './SideBar';
 // import { useSelector, useDispatch } from "react-redux";
 
 
@@ -48,6 +49,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
+      <SideBar />
       <h1 className="text-4xl font-bold text-gray-800 mb-6">Dashboard</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
@@ -75,13 +77,13 @@ const Dashboard = () => {
       </div>
 
       <div className='flex flex-row '>
-      <div className="w-1/2 h-1/3 bg-white p-2 rounded-lg shadow-lg mx-2">
+      {/* <div className="w-1/2 h-1/3 bg-white p-2 rounded-lg shadow-lg mx-2">
         <Line data={lineState} />
       </div>
 
       <div className="w-1/2 1/3 bg-white p-2 rounded-lg shadow-lg mx-2">
         <Doughnut style={{height:'50%',width:'50%'}} data={doughnutState} />
-      </div>
+      </div> */}
       </div>
     </div>
   )

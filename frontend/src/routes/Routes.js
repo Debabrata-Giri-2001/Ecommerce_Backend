@@ -20,6 +20,9 @@ import ProductReviews from '../pages/admin/ProductReviews';
 import UpdateProduct from '../pages/admin/UpdateProduct';
 import UpdateUser from '../pages/admin/UpdateUser';
 import UsersList from '../pages/admin/UsersList';
+import ProtectedRoute from '../components/route/ProtectedRoute';
+
+
 const Routes = () => {
 
     const dispatch = useDispatch();
@@ -45,7 +48,7 @@ const Routes = () => {
                     <Route path='/carts' element={<Carts />} />
                     <Route path='/faq' element={<Faq />} />
 
-                    <Route path='/admin/dashboard' element={<Dashboard   />} />
+                    <Route path='/admin/dashboard' element={<Dashboard />} />
                     <Route path='/admin/new-product' element={<NewProduct />} />
                     <Route path='/admin/order-list' element={<OrderList />} />
                     <Route path='/admin/process-order' element={<ProcessOrder />} />
@@ -54,6 +57,7 @@ const Routes = () => {
                     <Route path='/admin/update-product' element={<UpdateProduct />} />
                     <Route path='/admin/update-user' element={<UpdateUser />} />
                     <Route path='/admin/users-list' element={<UsersList />} />
+                    {/* <ProtectedRoute component={} isAdmin={} key={} /> */}
                 </Rtrs>
             </Router>
         </>
