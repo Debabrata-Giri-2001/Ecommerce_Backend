@@ -48,16 +48,17 @@ const Routes = () => {
                     <Route path='/carts' element={<Carts />} />
                     <Route path='/faq' element={<Faq />} />
 
-                    <Route path='/admin/dashboard' element={<Dashboard />} />
-                    <Route path='/admin/new-product' element={<NewProduct />} />
-                    <Route path='/admin/order-list' element={<OrderList />} />
-                    <Route path='/admin/process-order' element={<ProcessOrder />} />
-                    <Route path='/admin/product-list' element={<ProductList />} />
-                    <Route path='/admin/product-reviews' element={<ProductReviews />} />
-                    <Route path='/admin/update-product' element={<UpdateProduct />} />
-                    <Route path='/admin/update-user' element={<UpdateUser />} />
-                    <Route path='/admin/users-list' element={<UsersList />} />
-                    {/* <ProtectedRoute component={} isAdmin={} key={} /> */}
+                    {/* <Route element={<ProtectedRoute isAdmin={true} />}> */}
+                        <Route path='/admin/dashboard' element={<Dashboard />} />
+                        <Route path='/admin/new-product' element={<NewProduct />} />
+                        <Route path='/admin/order-list' element={<OrderList />} />
+                        <Route path='/admin/process-order' element={<ProcessOrder />} />
+                        <Route path='/admin/product-list' element={<ProductList />} />
+                        <Route path='/admin/product-reviews' element={<ProductReviews />} />
+                        <Route path='/admin/update-product' element={<UpdateProduct />} />
+                        <Route path='/admin/update-user' element={<UpdateUser />} />
+                        <Route path='/admin/users-list' element={<UsersList />} />
+                    {/* </Route> */}
                 </Rtrs>
             </Router>
         </>
