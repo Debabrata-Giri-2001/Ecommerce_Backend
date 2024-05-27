@@ -4,6 +4,7 @@ import TitleHeader from '../../components/layout/TitleHeader';
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { DataGrid } from '@mui/x-data-grid';
+import SideBar from './SideBar';
 
 const OrderList = () => {
 
@@ -73,18 +74,24 @@ const OrderList = () => {
 
   return (
     <Fragment>
-      <TitleHeader title={`ALL ORDERS - Admin`} />
-      <div className="p-4">
-        <h1 className="text-2xl font-Kanit mb-4">ALL ORDERS</h1>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={10}
-          disableSelectionOnClick
-          className="productListTable"
-          autoHeight
-        />
+      <div className='flex flex-row'>
+        <SideBar />
+        <div className='w-full'>
+          <TitleHeader title={`ALL ORDERS - Admin`} />
+          <div className="p-4">
+            <h1 className="text-2xl font-Kanit mb-4">ALL ORDERS</h1>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={10}
+              disableSelectionOnClick
+              className="productListTable"
+              autoHeight
+            />
+          </div>
+        </div>
       </div>
+
     </Fragment>
   );
 };

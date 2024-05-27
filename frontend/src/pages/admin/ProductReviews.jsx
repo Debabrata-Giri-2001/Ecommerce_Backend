@@ -4,6 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import TitleHeader from '../../components/layout/TitleHeader';
+import SideBar from './SideBar';
 
 const ProductReviews = () => {
 
@@ -76,43 +77,49 @@ const ProductReviews = () => {
 
   return (
     <Fragment>
-      <TitleHeader title={`ALL REVIEWS - Admin`} />
-      <div className="mt-6 px-4 py-2 bg-white shadow-md rounded-lg">
-        <form className="flex items-center justify-between mb-4" onSubmit={productReviewsSubmitHandler}>
-          <div className="flex items-center">
-            <label htmlFor="productId" className="mr-4">Product ID:</label>
-            <input
-              type="text"
-              id="productId"
-              placeholder="Enter Product ID"
-              required
-              value={productId}
-              onChange={(e) => setProductId(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
-            />
-          </div>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-          >
-            Search
-          </button>
-        </form>
+      <div className='flex flex-row'>
+        <SideBar />
+        <div className='w-fill'>
 
-        {true ? (
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="productListTable"
-            autoHeight
-          />
-        ) : (
-          <div className="text-center text-gray-600">
-            No Reviews Found
+          <TitleHeader title={`ALL REVIEWS - Admin`} />
+          <div className="mt-6 px-4 py-2 bg-white shadow-md rounded-lg">
+            <form className="flex items-center justify-between mb-4" onSubmit={productReviewsSubmitHandler}>
+              <div className="flex items-center">
+                <label htmlFor="productId" className="mr-4">Product ID:</label>
+                <input
+                  type="text"
+                  id="productId"
+                  placeholder="Enter Product ID"
+                  required
+                  value={productId}
+                  onChange={(e) => setProductId(e.target.value)}
+                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+              >
+                Search
+              </button>
+            </form>
+
+            {true ? (
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                pageSize={10}
+                disableSelectionOnClick
+                className="productListTable"
+                autoHeight
+              />
+            ) : (
+              <div className="text-center text-gray-600">
+                No Reviews Found
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </Fragment>
 

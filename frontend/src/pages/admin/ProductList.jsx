@@ -4,6 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import TitleHeader from '../../components/layout/TitleHeader';
+import SideBar from './SideBar';
 
 const ProductList = () => {
   const columns = [
@@ -66,20 +67,24 @@ const ProductList = () => {
 
   return (
     <Fragment>
-      <TitleHeader title={`ALL PRODUCTS - Admin`} />
+      <div className='flex flex-row'>
+        <SideBar />
+        <div className='w-full'>
+          <TitleHeader title={`ALL PRODUCTS - Admin`} />
+          <div className="">
+            <div className="p-4">
+              <h1 className="text-2xl font-Kanit mb-4">ALL PRODUCTS</h1>
 
-      <div className="">
-        <div className="p-4">
-          <h1 className="text-2xl font-Kanit mb-4">ALL PRODUCTS</h1>
-
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="productListTable"
-            autoHeight
-          />
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                pageSize={10}
+                disableSelectionOnClick
+                className="productListTable"
+                autoHeight
+              />
+            </div>
+          </div>
         </div>
       </div>
     </Fragment>
