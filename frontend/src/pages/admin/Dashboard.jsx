@@ -71,6 +71,10 @@ const Dashboard = () => {
               <p>{12}</p>
             </Link>
           </div>
+          
+          <div className='bg-white p-6 rounded-lg shadow-lg flex flex-col space-y-4'>
+
+          </div>
         </div>
 
         <div className='flex flex-row'>

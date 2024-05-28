@@ -15,10 +15,11 @@ const SideBar = () => {
   return (
     <Sidebar>
       <div className='flex flex-row items-center space-x-2 px-2 my-2'>
-        <img src="https://cdn-icons-png.flaticon.com/512/3176/3176363.png" alt="logo_icon" className='w-14 h-14' />
-        <p className='font-Kanit text-2xl text-color3'>E-commerce</p>
+        {/* <img src="https://cdn-icons-png.flaticon.com/512/3176/3176363.png" alt="logo_icon" className='w-14 h-14' /> */}
+        {/* <p className='font-Kanit text-2xl text-color3'>E-commerce</p> */}
       </div>
-      <Menu style={{ marginTop: '5rem' }}>
+        <p className='font-Kanit font-bold text-center text-3xl text-color3'>Admin</p>
+      <Menu style={{ marginTop: '3rem' }}>
         <p className='px-3 text-gray-400 text-md'>General</p>
         <MenuItem icon={<FaHome />} component={<Link to="/admin/dashboard" />}> Documentation</MenuItem>
         <MenuItem icon={<FaBox />} component={<Link to="/admin/new-product" />}>New Product</MenuItem>

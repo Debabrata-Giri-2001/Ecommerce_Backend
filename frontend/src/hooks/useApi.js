@@ -35,6 +35,7 @@ export const useChage = () => {
     const [isChanging, setIsChanging] = useState(false);
     const chage = async (path, options) => {
         try {
+            setIsChanging(true);
             const token = getCookie('token')
             const method = options?.method || 'POST';
             const headers = {
@@ -52,7 +53,6 @@ export const useChage = () => {
 
             const contentType = response.headers.get('content-type');
             const isJsonResponse = contentType && contentType.includes('application/json');
-
             const status = response.status;
             const results = isJsonResponse ? await response.json() : await response.text();
             setIsChanging(false);

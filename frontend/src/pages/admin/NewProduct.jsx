@@ -6,6 +6,9 @@ import { MdDescription } from "react-icons/md";
 import { MdAccountTree } from "react-icons/md";
 import { GrStorage } from "react-icons/gr";
 import SideBar from './SideBar';
+import { Cloudinary } from "@cloudinary/url-gen";
+import { useChage } from '../../hooks/useApi';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const NewProduct = () => {
@@ -18,6 +21,10 @@ const NewProduct = () => {
   const [Stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
+  const [inputImage, setInputImages] = useState('');
+  const [previewSource, setPreviewSource] = useState('');
+
+  const { chage, isChanging } = useChage();
 
   const categories = [
     "Laptop",
@@ -33,8 +40,52 @@ const NewProduct = () => {
 
   }
 
-  const createProductImagesChange = () => {
+  const createProductImagesChange = (e) => {
+    const file = e.target.files[0];
+    previewFile(file)
+    setInputImages(e.target.value)
+  }
 
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
+  };
+
+
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: 'demo'
+    }
+  });
+
+
+  const handelSubmit = async () => {
+    try {
+      const res = await chage(`/admin/product/new`, {
+        body: {
+          "name": name,
+          "price": price,
+          "description": description,
+          "category": category,
+          "images": {
+              "public_id": "images Id 84",
+              "url": "https://cdn.dummyjson.com/products/images/groceries/Apple/1.png"
+          },
+          "stock":Stock
+        }
+      })
+      if(res?.status === 201){
+        toast.success('Products created succesfuly.');
+      }else{
+        toast.error('Somthig want wrong.');
+      }
+      console.log(res)
+    } catch (error) {
+      toast.error('ERROR!..');
+    }
   }
 
   return (
@@ -116,34 +167,46 @@ const NewProduct = () => {
                 <div id="createProductFormFile" className="relative flex items-center">
                   <input
                     type="file"
-                    name="avatar"
                     accept="image/*"
                     onChange={createProductImagesChange}
                     multiple
+                    value={inputImage}
                     className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
                 </div>
 
-                <div id="createProductFormImage" className="flex space-x-4">
+                {/* <div id="createProductFormImage" className="flex space-x-4">
                   {imagesPreview?.map((image, index) => (
                     <img key={index} src={image} alt="Product Preview" className="w-20 h-20 object-cover rounded-md" />
                   ))}
-                </div>
+                </div> */}
+                {previewSource && (
+                  <img src={previewSource} alt="chosen" className='h-20 w-20' />
+                )}
 
-                <button
-                  id="createProductBtn"
-                  type="submit"
-                  className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
+
+                <p
+                  className="w-full bg-blue-500 text-white cursor-pointer py-2 rounded-md hover:bg-blue-600 transition duration-300 text-center font-semibold font-Kanit"
+                  onClick={() => { handelSubmit() }}
                 >
-                  Create
-                </button>
+                  {isChanging ? (
+                    <div className='flex justify-center'>
+                    <svg className="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.96 7.96 0 014 12H0c0 4.418 3.582 8 8 8v-4zm8-9.457V6a8.014 8.014 0 01-3.535 6.465l1.414 1.414A6 6 0 1014 6.828zM5.414 6.828L4 5.414A8.014 8.014 0 016 0v3.543a5.978 5.978 0 00-1.586 3.285z"></path>
+                    </svg>
+                    </div>
+                  ) : (
+                    'create'
+                  )}
+                </p>
               </form>
             </div>
           </div>
         </div>
 
       </div>
-
+      <ToastContainer />
     </Fragment>
   )
 }
