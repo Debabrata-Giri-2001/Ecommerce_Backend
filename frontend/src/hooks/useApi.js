@@ -19,7 +19,7 @@ export const useFetch = async (path) => {
     if (token) {
         headers['Content-Type'] = 'application/json';
         headers['Authorization'] = `Bearer ${token}`;
-    }    
+    }
     try {
         const response = await axios.get(`${URL}/${path}`, { headers });
         const data = response.data;
@@ -36,10 +36,9 @@ export const useChage = () => {
     const chage = async (path, options) => {
         try {
             const token = getCookie('token')
-            console.log("token==>", token)
             const method = options?.method || 'POST';
             const headers = {
-                'Set-Cookie': `token=${token}`,
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             }
             const body = options?.body
