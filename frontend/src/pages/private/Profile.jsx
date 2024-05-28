@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import Header from '../../components/layout/Header'
 import { useDispatch, useSelector } from 'react-redux';
 import { currentUserFetch } from '../../redux/stores/CurrentUserSlice';
 import Loader from '../../components/core/Loader';
@@ -72,7 +71,6 @@ const Profile = () => {
 
     return (
         <div className="h-[100vh]">
-            <Header />
             {/* profile deiv */}
             <div className='mx-7'>
                 <p className='font-extrabold font-sans text-slate-800 '>Account</p>

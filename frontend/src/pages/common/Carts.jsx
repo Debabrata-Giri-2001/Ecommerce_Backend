@@ -1,5 +1,4 @@
 import React from 'react'
-import Header from '../../components/layout/Header'
 import { useDispatch, useSelector } from 'react-redux'
 import { decreaseProducts, increaseProducts } from '../../redux/stores/cartsSlice';
 import { FaPlus, FaMinus } from "react-icons/fa6";
@@ -18,11 +17,9 @@ const Carts = () => {
         dispatch(decreaseProducts(id));
     };
 
-    console.log("cart--<", cart)
 
     return (
         <>
-            <Header />
             <div className='py-2 px-3'>
                 <div className="p-10">
                     <div className="container mx-auto bg-white rounded-lg shadow-lg p-6">

@@ -8,7 +8,6 @@ import ImageSlide from '../../components/layout/ImageSlide';
 import RelatedProducts from '../../components/layout/RelatedProducts';
 import ProductsReviews from '../../components/layout/ProductsReviews';
 import ProductsDetails from '../../components/layout/ProductsDetails';
-import Header from '../../components/layout/Header';
 import RatingStar from '../../components/core/RatingStar';
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import TabButton from '../../components/layout/TabButton';
@@ -59,7 +58,6 @@ const ProductDetails = () => {
   }
   return (
     <>
-      <Header />
       <div className='px-2 py-4 flex flex-row justify-center'>
 
         <div className='w-[40%]'>

@@ -5,7 +5,6 @@ import Error from '../../components/core/Error';
 import { fetchProducts } from '../../redux/stores/ProductsSlice';
 import ProductCard from '../../components/layout/ProductCard';
 import { Link } from 'react-router-dom';
-import Header from '../../components/layout/Header';
 import EmptyData from '../../components/core/EmptyData';
 import { MdOutlineFilterList } from "react-icons/md";
 import RatingStar from '../../components/core/RatingStar';
@@ -103,7 +102,6 @@ const ProductsAll = () => {
 
     return (
         <div className='h-full'>
-            <Header />
             <hr />
             <div className='flex flex-row w-full'>
                 {/* filter */}

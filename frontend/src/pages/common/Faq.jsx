@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import Header from '../../components/layout/Header'
-import Footer from '../../components/layout/Footer'
 
 const Faq = () => {
 
@@ -123,8 +121,6 @@ const Faq = () => {
 
     return (
         <>
-            <Header />
-
             {/* Mid data */}
             <div id="accordion-collapse" data-accordion="collapse" className='my-12 mx-20'>
                 {accordionData.map((item, index) => (
@@ -139,7 +135,6 @@ const Faq = () => {
                 ))}
             </div>
 
-            <Footer />
         </>
     )
 }

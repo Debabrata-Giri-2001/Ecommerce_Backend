@@ -21,6 +21,8 @@ import UpdateProduct from '../pages/admin/UpdateProduct';
 import UpdateUser from '../pages/admin/UpdateUser';
 import UsersList from '../pages/admin/UsersList';
 import ProtectedRoute from '../components/route/ProtectedRoute';
+import Header from '../components/layout/Header';
+import Footer from '../components/layout/Footer';
 
 
 const Routes = () => {
@@ -37,6 +39,7 @@ const Routes = () => {
     return (
         <>
             <Router>
+                <Header />
                 <Rtrs>
                     <Route path='/' element={<Home />} />
                     <Route path='/product/:id' element={<ProductDetails />} />
@@ -60,6 +63,7 @@ const Routes = () => {
                         <Route path='/admin/users-list' element={<UsersList />} />
                     {/* </Route> */}
                 </Rtrs>
+                <Footer />
             </Router>
         </>
     )
