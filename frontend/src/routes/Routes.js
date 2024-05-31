@@ -20,7 +20,7 @@ import ProductReviews from '../pages/admin/ProductReviews';
 import UpdateProduct from '../pages/admin/UpdateProduct';
 import UpdateUser from '../pages/admin/UpdateUser';
 import UsersList from '../pages/admin/UsersList';
-import ProtectedRoute from '../components/route/ProtectedRoute';
+// import ProtectedRoute from '../components/route/ProtectedRoute';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 

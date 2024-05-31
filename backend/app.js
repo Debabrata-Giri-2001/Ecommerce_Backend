@@ -11,6 +11,7 @@ app.use(cookiesParser())
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 
 
+
 const autoRenderRouters = () => {
     const routes = require(routerPath);
     for (const route in routes) {

@@ -1,17 +1,39 @@
 const Product = require('../model/productsModel')
 const Applications = require('../utils/apiFeatures')
-const ErrorHandelder = require('../utils/errorHnadeler')
-const catchAsyncError = require("../middleware/catchAsyncError");
 const ErrorHandler = require('../utils/errorHnadeler');
+const catchAsyncError = require("../middleware/catchAsyncError");
+const cloudinary = require('../config/cloudinaryConfig');
 
 // creat products - only for admin
 exports.createProducts = async (req, res, next) => {
+
+    const imagesLinks = [];
+
     req.body.user = req.user.id;
+    // Handle file uploads
+    if (req.files) {
+        try {
+            const images = Array.isArray(req.files.images) ? req.files.images : [req.files.images];
+            for (const image of images) {
+
+                const cloudinaryUploadResponse = await cloudinary.uploader.upload(image.tempFilePath,{
+                    resource_type:'auto'
+                });
+                imagesLinks.push({
+                    public_id: cloudinaryUploadResponse.public_id,
+                    url: cloudinaryUploadResponse.secure_url
+                });
+            }
+            req.body.images = imagesLinks;
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 500));
+        }
+    }
     try {
         const product = await Product.create(req.body)
         res.status(201).json(product)
     } catch (error) {
-        return next(new ErrorHandelder(error, 500));
+        return next(new ErrorHandler(error, 500));
     }
 }
 
@@ -102,7 +124,7 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
         product.reviews.forEach((rev) => {
             if (rev.user.toString() === req.user._id.toString()) {
                 rev.rating = rating,
-                rev.comment = comment;
+                    rev.comment = comment;
             }
         });
     } else {

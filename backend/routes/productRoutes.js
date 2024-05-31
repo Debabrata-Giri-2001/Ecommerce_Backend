@@ -10,7 +10,6 @@ const {
     getProductReviews
 } = require('../controller/productController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
-
 const router = express.Router();
 
 

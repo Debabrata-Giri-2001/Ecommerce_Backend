@@ -1,8 +1,6 @@
 import React, { Fragment, useState } from 'react'
-import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { DataGrid } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
 import TitleHeader from '../../components/layout/TitleHeader';
 import SideBar from './SideBar';
 

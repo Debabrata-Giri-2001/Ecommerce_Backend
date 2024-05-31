@@ -80,7 +80,7 @@ const Register = () => {
         <div className="h-screen w-full bg-cover bg-no-repeat bg-top  flex justify-center items-center bg-gray-50">
             <div className='backdrop-blur-lg  w-3/6 rounded-lg p-12 border-slate-300 border-2 shadow-lg bg-white'>
                 {/* left side */}
-                <h1 class="text-2xl font-bold text-center mb-4  dark:text-gray-900">Register</h1>
+                <h1 className="text-2xl font-bold text-center mb-4  dark:text-gray-900">Register</h1>
                 <Formik
                     initialValues={initialValues}
                     validationSchema={Yup.object(validationSchema)}

@@ -47,7 +47,6 @@ export const useChage = () => {
                     ? options?.body
                     : JSON.stringify(options.body)
                 : `{}`;
-
             const fetchOptions = { method, headers, body };
             const response = await fetch(`${BASE_URL}${path}`, fetchOptions);
 

@@ -6,7 +6,6 @@ import { MdDescription } from "react-icons/md";
 import { MdAccountTree } from "react-icons/md";
 import { GrStorage } from "react-icons/gr";
 import SideBar from './SideBar';
-import { Cloudinary } from "@cloudinary/url-gen";
 import { useChage } from '../../hooks/useApi';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -20,9 +19,7 @@ const NewProduct = () => {
   const [category, setCategory] = useState("");
   const [Stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
-  const [inputImage, setInputImages] = useState('');
-  const [previewSource, setPreviewSource] = useState('');
+  const [previewSources, setPreviewSources] = useState([]);
 
   const { chage, isChanging } = useChage();
 
@@ -41,49 +38,46 @@ const NewProduct = () => {
   }
 
   const createProductImagesChange = (e) => {
-    const file = e.target.files[0];
-    previewFile(file)
-    setInputImages(e.target.value)
-  }
+    const files = Array.from(e.target.files);
+    setImages(e.target.value);
+
+    files.forEach(file => previewFile(file));
+  };
 
   const previewFile = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setPreviewSource(reader.result);
+      setPreviewSources(prevSources => [...prevSources, reader.result]);
     };
   };
 
-
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: 'demo'
-    }
-  });
-
-
   const handelSubmit = async () => {
     try {
+      const formData = new FormData();
+
+      formData.append("name", name);
+      formData.append("price", price);
+      formData.append("description", description);
+      formData.append("category", category);
+      formData.append("stock", Stock);
+
+      previewSources.forEach((image, index) => {
+        formData.append(`images[${index}]`, image);
+      });
+      console.log("frdAta--", formData)
       const res = await chage(`/admin/product/new`, {
-        body: {
-          "name": name,
-          "price": price,
-          "description": description,
-          "category": category,
-          "images": {
-              "public_id": "images Id 84",
-              "url": "https://cdn.dummyjson.com/products/images/groceries/Apple/1.png"
-          },
-          "stock":Stock
-        }
+        body: formData,
+        isFormData: true,
       })
-      if(res?.status === 201){
+      console.log(res)
+      if (res?.status === 201) {
         toast.success('Products created succesfuly.');
-      }else{
+      } else {
         toast.error('Somthig want wrong.');
       }
-      console.log(res)
     } catch (error) {
+      console.log("erro==>",error)
       toast.error('ERROR!..');
     }
   }
@@ -170,19 +164,17 @@ const NewProduct = () => {
                     accept="image/*"
                     onChange={createProductImagesChange}
                     multiple
-                    value={inputImage}
+                    value={images}
                     className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
                 </div>
 
-                {/* <div id="createProductFormImage" className="flex space-x-4">
-                  {imagesPreview?.map((image, index) => (
-                    <img key={index} src={image} alt="Product Preview" className="w-20 h-20 object-cover rounded-md" />
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4">
+                  {previewSources?.map((src, index) => (
+                    <img key={index} src={src} alt="chosen" className="h-20 w-20 object-cover" />
                   ))}
-                </div> */}
-                {previewSource && (
-                  <img src={previewSource} alt="chosen" className='h-20 w-20' />
-                )}
+                </div>
+
 
 
                 <p
@@ -191,10 +183,10 @@ const NewProduct = () => {
                 >
                   {isChanging ? (
                     <div className='flex justify-center'>
-                    <svg className="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.96 7.96 0 014 12H0c0 4.418 3.582 8 8 8v-4zm8-9.457V6a8.014 8.014 0 01-3.535 6.465l1.414 1.414A6 6 0 1014 6.828zM5.414 6.828L4 5.414A8.014 8.014 0 016 0v3.543a5.978 5.978 0 00-1.586 3.285z"></path>
-                    </svg>
+                      <svg className="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.96 7.96 0 014 12H0c0 4.418 3.582 8 8 8v-4zm8-9.457V6a8.014 8.014 0 01-3.535 6.465l1.414 1.414A6 6 0 1014 6.828zM5.414 6.828L4 5.414A8.014 8.014 0 016 0v3.543a5.978 5.978 0 00-1.586 3.285z"></path>
+                      </svg>
                     </div>
                   ) : (
                     'create'
