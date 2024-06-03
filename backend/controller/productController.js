@@ -14,7 +14,10 @@ exports.createProducts = async (req, res, next) => {
         }
         const imagesLinks = [];
         fields.user = req.user.id;
-
+        const cleanedFields = {};
+        for (const key in fields) {
+            cleanedFields[key] = Array.isArray(fields[key]) ? fields[key][0] : fields[key];
+        }
         if (files.images) {
             const images = Array.isArray(files.images) ? files.images : [files.images];
 
@@ -31,12 +34,10 @@ exports.createProducts = async (req, res, next) => {
                     return next(new ErrorHandler(error.message, 500));
                 }
             }
-
-            fields.images = imagesLinks;
+            cleanedFields.images = imagesLinks;
         }
-
         try {
-            const product = await Product.create(fields);
+            const product = await Product.create(cleanedFields);
             res.status(201).json(product);
         } catch (error) {
             return next(new ErrorHandler(error, 500));
