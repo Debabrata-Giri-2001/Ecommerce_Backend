@@ -4,12 +4,13 @@ import { useState } from "react";
 export const BASE_URL = `http://localhost:8080/api/v1`;
 
 const getCookie = (cookieName) => {
-    const cookie = document.cookie
+    const cookies = document.cookie
         .split(';')
         .map((item) => item.trim().split('='))
-        .find(([name]) => name === cookieName);
+        .filter(([name, value]) => name !== '' && value !== undefined);
 
-    return cookie ? cookie[1] : null;
+    const targetCookie = cookies.find(([name]) => name === cookieName);    
+    return targetCookie ? targetCookie[1] : null;
 };
 
 export const useFetch = async (path) => {

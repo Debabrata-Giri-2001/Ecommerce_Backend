@@ -116,24 +116,31 @@ const Header = () => {
                         {user ?
                             <>
                                 <li>
-                                    <p onClick={()=>{navigate('/profile')}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <p onClick={() => { navigate('/profile') }} className="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                         Profile
                                     </p>
                                 </li>
+                                {user?.user?.role === 'admin' && (
+                                    <li>
+                                        <p onClick={() => { navigate('/admin/dashboard') }} className="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                            Dashboard
+                                        </p>
+                                    </li>
+                                )}
                                 <li>
-                                    <p onClick={handleLogOut} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <p onClick={handleLogOut} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-600 dark:hover:text-white">
                                         Logout
                                     </p>
                                 </li>
                                 <li>
-                                    <p onClick={()=>{navigate('/forgot-password')}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <p onClick={() => { navigate('/forgot-password') }} className="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                         Change Password
                                     </p>
                                 </li>
                             </>
                             :
                             <li>
-                                <p onClick={()=>{navigate('/login')}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                <p onClick={() => { navigate('/login') }} className="block px-4 py-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-600 dark:hover:text-white">
                                     Login
                                 </p>
                             </li>

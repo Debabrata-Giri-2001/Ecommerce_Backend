@@ -53,9 +53,8 @@ const NewProduct = () => {
   };
 
   const handelSubmit = async () => {
+    const formData = new FormData();
     try {
-      const formData = new FormData();
-
       formData.append("name", name);
       formData.append("price", price);
       formData.append("description", description);
@@ -65,12 +64,11 @@ const NewProduct = () => {
       previewSources.forEach((image, index) => {
         formData.append(`images[${index}]`, image);
       });
-      console.log("frdAta--", formData)
       const res = await chage(`/admin/product/new`, {
         body: formData,
         isFormData: true,
       })
-      console.log(res)
+      console.log("res->",res)
       if (res?.status === 201) {
         toast.success('Products created succesfuly.');
       } else {

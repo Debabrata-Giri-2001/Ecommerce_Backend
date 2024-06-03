@@ -52,20 +52,19 @@ const Login = () => {
 
   const handleLogin = async (values) => {
     try {
-      const result = await dispatch(LoginFun({ email: values?.email, password: values?.password }));
-      Cookies.set('token', result.payload.token, { expires: 5 })
-      console.log("res", result.payload)
-      if (result.meta.requestStatus === 'fulfilled' && result.payload.scccess === true) {
-        dispatch(setCreditional(result?.payload));
-        toast.success('Login Successful.');
-        navigate('/')
-      } else {
-        toast.error(result?.payload?.error || 'Login Failed.');
-      }
+        const result = await dispatch(LoginFun({ email: values?.email, password: values?.password }));
+        if (result.meta.requestStatus === 'fulfilled' && result.payload.success === true) {
+            Cookies.set('token', result.payload.token, { expires: 5 });
+            dispatch(setCreditional(result?.payload));
+            toast.success('Login Successful.');
+            navigate('/');
+        } else {
+            toast.error(result?.payload?.error || 'Login Failed.');
+        }
     } catch (error) {
-      toast.error('Something went wrong.');
+        toast.error('Something went wrong.');
     }
-  };
+};
 
   return (
     <div className="h-screen w-full bg-cover bg-no-repeat bg-top  flex justify-center items-center bg-slate-100">
