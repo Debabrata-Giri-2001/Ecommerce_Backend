@@ -23,8 +23,6 @@ exports.createProducts = async (req, res, next) => {
                     const result = await cloudinary.uploader.upload(image.filepath, {
                         resource_type: 'auto'
                     });
-                    
-                    console.log("image-->",result)
                     imagesLinks.push({
                         public_id: result.public_id,
                         url: result.secure_url
