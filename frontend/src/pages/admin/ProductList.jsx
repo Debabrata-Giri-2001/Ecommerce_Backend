@@ -73,8 +73,6 @@ const ProductList = () => {
           <TitleHeader title={`ALL PRODUCTS - Admin`} />
           <div className="">
             <div className="p-4">
-              <h1 className="text-2xl font-Kanit mb-4">ALL PRODUCTS</h1>
-
               <DataGrid
                 rows={rows}
                 columns={columns}

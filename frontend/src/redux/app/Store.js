@@ -3,11 +3,13 @@ import ProductsReducer from '../stores/ProductsSlice';
 import AuthReducer from '../stores/AuthSlice';
 import currentUserReducer from '../stores/CurrentUserSlice'
 import cartsSlice from "../stores/cartsSlice";
+import OrdersListSlice from "../stores/OrdersListSlice";
 export const Store = configureStore({
     reducer: {
         auth:AuthReducer,
         products: ProductsReducer,
         currentUser:currentUserReducer,
-        cart:cartsSlice
+        cart:cartsSlice,
+        orderList:OrdersListSlice
     }
 })
