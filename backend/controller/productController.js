@@ -3,39 +3,48 @@ const Applications = require('../utils/apiFeatures')
 const ErrorHandler = require('../utils/errorHnadeler');
 const catchAsyncError = require("../middleware/catchAsyncError");
 const cloudinary = require('../config/cloudinaryConfig');
-
+const formidable = require('formidable')
 // creat products - only for admin
 exports.createProducts = async (req, res, next) => {
+    const form = new formidable.IncomingForm();
 
-    const imagesLinks = [];
-
-    req.body.user = req.user.id;
-    // Handle file uploads
-    if (req.files) {
-        try {
-            const images = Array.isArray(req.files.images) ? req.files.images : [req.files.images];
-            for (const image of images) {
-
-                const cloudinaryUploadResponse = await cloudinary.uploader.upload(image.tempFilePath,{
-                    resource_type:'auto'
-                });
-                imagesLinks.push({
-                    public_id: cloudinaryUploadResponse.public_id,
-                    url: cloudinaryUploadResponse.secure_url
-                });
-            }
-            req.body.images = imagesLinks;
-        } catch (error) {
-            return next(new ErrorHandler(error.message, 500));
+    form.parse(req, async (err, fields, files) => {
+        if (err) {
+            return next(new ErrorHandler(err.message, 500));
         }
-    }
-    try {
-        const product = await Product.create(req.body)
-        res.status(201).json(product)
-    } catch (error) {
-        return next(new ErrorHandler(error, 500));
-    }
-}
+        const imagesLinks = [];
+        fields.user = req.user.id;
+
+        if (files.images) {
+            const images = Array.isArray(files.images) ? files.images : [files.images];
+
+            for (const image of images) {
+                try {
+                    const result = await cloudinary.uploader.upload(image.filepath, {
+                        resource_type: 'auto'
+                    });
+                    
+                    console.log("image-->",result)
+                    imagesLinks.push({
+                        public_id: result.public_id,
+                        url: result.secure_url
+                    });
+                } catch (error) {
+                    return next(new ErrorHandler(error.message, 500));
+                }
+            }
+
+            fields.images = imagesLinks;
+        }
+
+        try {
+            const product = await Product.create(fields);
+            res.status(201).json(product);
+        } catch (error) {
+            return next(new ErrorHandler(error, 500));
+        }
+    });
+};
 
 
 exports.getAllProducts = async (req, res) => {

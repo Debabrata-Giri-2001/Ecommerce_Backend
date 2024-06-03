@@ -5,10 +5,14 @@ const app = express()
 const middleware = require('./middleware/error')
 const cors = require('cors')
 const routerPath = './routes/index.js';
+const multer  = require('multer');
+const upload = multer();
+const fileupload = require('express-fileupload')
 
 app.use(express.json())
 app.use(cookiesParser())
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
