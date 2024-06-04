@@ -16,7 +16,7 @@ const initialState = {
     status: 'idle',
     error: null,
     orderList: [],
-    orderList: null,
+    orderListMessage: null,
 }
 
 const orderListSlice = createSlice({

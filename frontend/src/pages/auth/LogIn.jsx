@@ -53,11 +53,11 @@ const Login = () => {
   const handleLogin = async (values) => {
     try {
         const result = await dispatch(LoginFun({ email: values?.email, password: values?.password }));
-        if (result.meta.requestStatus === 'fulfilled' && result.payload.success === true) {
+        if (result.meta.requestStatus === 'fulfilled' && result.payload.scccess === true) {
             Cookies.set('token', result.payload.token, { expires: 5 });
             dispatch(setCreditional(result?.payload));
             toast.success('Login Successful.');
-            navigate('/');
+            navigate('/')
         } else {
             toast.error(result?.payload?.error || 'Login Failed.');
         }

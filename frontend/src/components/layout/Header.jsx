@@ -8,12 +8,11 @@ import { useSelector } from 'react-redux';
 const Header = () => {
 
     const user = useSelector(state => state.currentUser.user)
-
+    const auth = useSelector(state => state.auth)
     const [showNav, setShowNav] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
     const navigate = useNavigate();
-
 
     const handleToggle = () => {
         setIsOpen(!isOpen);
@@ -35,7 +34,6 @@ const Header = () => {
     const handleLogOut = () => {
         // Split cookies into an array
         const cookies = document.cookie.split(";");
-
         // Iterate over each cookie and remove it
         cookies.forEach(cookie => {
             const cookieParts = cookie.split("=");
@@ -68,6 +66,12 @@ const Header = () => {
                         <NavLink onClick={() => setShowNav(!showNav)} to='/'>Home</NavLink>
                         <span className="absolute bottom-0 left-0 w-full h-1 bg-color3 transform scale-x-0 transition-transform duration-500 group-hover:scale-x-100"></span>
                     </li>
+                    {user?.user?.role === 'admin' || auth?.user?.role === 'admin' && (
+                        <li className='m-1 p-2 relative group'>
+                            <NavLink onClick={() => setShowNav(!showNav)} to='/admin/dashboard'>Dashboard</NavLink>
+                            <span className="absolute bottom-0 left-0 w-full h-1 bg-color3 transform scale-x-0 transition-transform duration-500 group-hover:scale-x-100"></span>
+                        </li>
+                    )}
                     <li className='m-1 p-2 relative group'>
                         <NavLink onClick={() => setShowNav(!showNav)} to='/products'>Product</NavLink>
                         <span className="absolute bottom-0 left-0 w-full h-1 bg-color3 transform scale-x-0 transition-transform duration-500 group-hover:scale-x-100"></span>
@@ -113,7 +117,7 @@ const Header = () => {
                         }`}
                 >
                     <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-                        {user ?
+                        {user?.user  || auth?.user ?
                             <>
                                 <li>
                                     <p onClick={() => { navigate('/profile') }} className="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
