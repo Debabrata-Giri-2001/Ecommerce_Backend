@@ -1,15 +1,36 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import TitleHeader from '../../components/layout/TitleHeader';
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { DataGrid } from '@mui/x-data-grid';
 import SideBar from './SideBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { FetchOrderList } from '../../redux/stores/OrdersListSlice';
+import Loader from '../../components/core/Loader';
+import Error from '../../components/core/Error';
 
 const OrderList = () => {
 
 
-  const rows = [];
+  const dispatch = useDispatch();
+  const orderList = useSelector(state => state.orderList.products);
+  const status = useSelector(state => state.orderList.status);
+
+  useEffect(() => {
+    dispatch(FetchOrderList());
+  }, [dispatch]);
+
+  // Render loading state
+  if (status === 'loading') {
+    return <Loader />;
+  }
+
+  // Render error state
+  if (status === 'failed') {
+    return <Error />;
+  }
+
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
@@ -79,9 +100,8 @@ const OrderList = () => {
         <div className='w-full'>
           <TitleHeader title={`ALL ORDERS - Admin`} />
           <div className="p-4">
-            <h1 className="text-2xl font-Kanit mb-4">ALL ORDERS</h1>
             <DataGrid
-              rows={rows}
+              rows={orderList?.orders}
               columns={columns}
               pageSize={10}
               disableSelectionOnClick

@@ -1,13 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { BASE_URL } from "../../hooks/useApi";
+import { useFetch } from "../../hooks/useApi";
 
 
 //Asynk Product ordcer list
 export const FetchOrderList = createAsyncThunk(
     `admin/orderList`,
     async () => {
-        const response = await axios.get(`${BASE_URL}/admin/orders`);
+        const response = useFetch(`/admin/orders`);
         return response;
     }
 )
@@ -15,8 +14,6 @@ export const FetchOrderList = createAsyncThunk(
 const initialState = {
     status: 'idle',
     error: null,
-    orderList: [],
-    orderListMessage: null,
 }
 
 const orderListSlice = createSlice({
