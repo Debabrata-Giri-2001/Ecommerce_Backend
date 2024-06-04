@@ -62,20 +62,18 @@ const NewProduct = () => {
       formData.append("stock", Stock);
 
       previewSources.forEach((image, index) => {
-        formData.append(`images[${index}]`, image);
-      });
+        formData.append("images", image);
+    });
       const res = await chage(`/admin/product/new`, {
         body: formData,
         isFormData: true,
       })
-      console.log("res->",res)
       if (res?.status === 201) {
         toast.success('Products created succesfuly.');
       } else {
         toast.error('Somthig want wrong.');
       }
     } catch (error) {
-      console.log("erro==>",error)
       toast.error('ERROR!..');
     }
   }

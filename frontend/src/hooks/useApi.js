@@ -34,37 +34,44 @@ export const useFetch = async (path) => {
 // path - url_path,method - type of request
 export const useChage = () => {
     const [isChanging, setIsChanging] = useState(false);
+  
     const chage = async (path, options) => {
-        try {
-            setIsChanging(true);
-            const token = getCookie('token')
-            const method = options?.method || 'POST';
-            const headers = {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            }
-            const body = options?.body
-                ? options?.isFormData
-                    ? options?.body
-                    : JSON.stringify(options.body)
-                : `{}`;
-            const fetchOptions = { method, headers, body };
-            const response = await fetch(`${BASE_URL}${path}`, fetchOptions);
-
-            const contentType = response.headers.get('content-type');
-            const isJsonResponse = contentType && contentType.includes('application/json');
-            const status = response.status;
-            const results = isJsonResponse ? await response.json() : await response.text();
-            setIsChanging(false);
-            return { results, status };
-
-        } catch (error) {
-            setIsChanging(false);
-            throw new Error(
-                error instanceof Error ? error.message : 'Something went wrong',
-            );
+      try {
+        setIsChanging(true);
+        const token = getCookie('token');
+        const method = options?.method || 'POST';
+        const headers = {
+          'Authorization': `Bearer ${token}`,
+        };
+  
+        // Only add 'Content-Type' header for non-form data requests
+        if (!options?.isFormData) {
+          headers['Content-Type'] = 'application/json';
         }
-    }
-
+  
+        const body = options?.body
+          ? options?.isFormData
+            ? options?.body
+            : JSON.stringify(options.body)
+          : `{}`;
+  
+        const fetchOptions = { method, headers, body };
+        const response = await fetch(`${BASE_URL}${path}`, fetchOptions);
+  
+        const contentType = response.headers.get('content-type');
+        const isJsonResponse = contentType && contentType.includes('application/json');
+        const status = response.status;
+        const results = isJsonResponse ? await response.json() : await response.text();
+        setIsChanging(false);
+        return { results, status };
+      } catch (error) {
+        setIsChanging(false);
+        throw new Error(
+          error instanceof Error ? error.message : 'Something went wrong',
+        );
+      }
+    };
+  
     return { chage, isChanging };
-}
+  };
+  

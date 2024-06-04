@@ -15,15 +15,15 @@ exports.createProducts = async (req, res, next) => {
         const imagesLinks = [];
         fields.user = req.user.id;
         const cleanedFields = {};
+
         for (const key in fields) {
             cleanedFields[key] = Array.isArray(fields[key]) ? fields[key][0] : fields[key];
         }
-        if (files.images) {
-            const images = Array.isArray(files.images) ? files.images : [files.images];
-
+        if (fields.images) {
+            const images = Array.isArray(fields.images) ? fields.images : [fields.images];
             for (const image of images) {
                 try {
-                    const result = await cloudinary.uploader.upload(image.filepath, {
+                    const result = await cloudinary.uploader.upload(image, {
                         resource_type: 'auto'
                     });
                     imagesLinks.push({
@@ -34,6 +34,7 @@ exports.createProducts = async (req, res, next) => {
                     return next(new ErrorHandler(error.message, 500));
                 }
             }
+            console.log("-->",imagesLinks)
             cleanedFields.images = imagesLinks;
         }
         try {
@@ -44,6 +45,7 @@ exports.createProducts = async (req, res, next) => {
         }
     });
 };
+
 
 
 exports.getAllProducts = async (req, res) => {

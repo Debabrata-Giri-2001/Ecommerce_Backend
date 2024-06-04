@@ -9,7 +9,10 @@ const routerPath = './routes/index.js';
 app.use(express.json())
 app.use(cookiesParser())
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+// app.use(bodyParser.json({ limit: '50mb' })); // Adjust the limit as needed
+// app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
 
