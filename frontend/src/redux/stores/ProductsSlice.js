@@ -7,7 +7,7 @@ export const fetchProducts = createAsyncThunk(
     'products/fetchProducts',
     async ({ priceValue, category, ratings, inputQuery,page }) => {
         const url = `${BASE_URL}/products?` +
-            `${priceValue ? `selling_price[gt]=${Number(priceValue)}&` : ''}` +
+            `${priceValue ? `price[gt]=${Number(priceValue)}&` : ''}` +
             `${category ? `category=${category}&` : ''}` +
             `${ratings ? `average_rating=${ratings}&` : ''}` +
             `${inputQuery ? `keyword=${inputQuery}` : ''}`+
