@@ -5,6 +5,8 @@ import currentUserReducer from '../stores/CurrentUserSlice'
 import cartsSlice from "../stores/cartsSlice";
 import OrdersListSlice from "../stores/OrdersListSlice";
 import UserListSlice from "../stores/UserListSlice";
+import ProductAdminSlice from "../stores/ProductAdminSlice";
+
 export const Store = configureStore({
     reducer: {
         auth:AuthReducer,
@@ -12,6 +14,7 @@ export const Store = configureStore({
         currentUser:currentUserReducer,
         cart:cartsSlice,
         orderList:OrdersListSlice,
-        userList:UserListSlice
+        userList:UserListSlice,
+        productsListAdmin:ProductAdminSlice,
     }
 })
