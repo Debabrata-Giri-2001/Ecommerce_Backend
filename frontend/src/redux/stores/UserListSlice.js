@@ -1,42 +1,42 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useFetch } from "../../hooks/useApi";
 
-
 //Asynk Product ordcer list
-export const FetchOrderList = createAsyncThunk(
+export const allUserListFetch = createAsyncThunk(
     `admin/orderList`,
     async () => {
-        const response = useFetch(`/admin/orders`);
+        const response = useFetch(`/admin/users`);
         return response;
     }
 )
-
 const initialState = {
     status: 'idle',
     error: null,
-}
+    user: [],
+};
 
-const orderListSlice = createSlice({
-    name: 'orderList',
-    initialState,
+const UserListSlice = createSlice({
+    name: 'userList',
+    initialState: initialState,
     reducers: {
-        //if need it
+        // if it needed
     },
     extraReducers: (builder) => {
         builder
-            .addCase(FetchOrderList.pending,(state)=>{
+            .addCase(allUserListFetch.pending, (state) => {
                 state.status = 'loading';
                 state.error = null;
             })
-            .addCase(FetchOrderList.fulfilled,(state,action)=>{
+            .addCase(allUserListFetch.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.products = action.payload;
+                state.user = action.payload;
             })
-            .addCase(FetchOrderList.rejected,(state,action)=>{
+            .addCase(allUserListFetch.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             })
     }
 })
 
-export default orderListSlice.reducer;
+
+export default UserListSlice.reducer

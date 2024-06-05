@@ -33,7 +33,7 @@ const OrderList = () => {
 
 
   const columns = [
-    { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
+    { field: "id", headerName: "Order ID", minWidth: 300, },
 
     {
       field: "status",
@@ -51,7 +51,6 @@ const OrderList = () => {
       headerName: "Items Qty",
       type: "number",
       minWidth: 150,
-      flex: 0.4,
     },
 
     {
@@ -59,7 +58,6 @@ const OrderList = () => {
       headerName: "Amount",
       type: "number",
       minWidth: 270,
-      flex: 0.5,
     },
 
     {
@@ -67,8 +65,6 @@ const OrderList = () => {
       flex: 0.3,
       headerName: "Actions",
       minWidth: 150,
-      type: "number",
-      sortable: false,
       renderCell: (params) => {
         return (
           <Fragment>
@@ -100,14 +96,21 @@ const OrderList = () => {
         <div className='w-full'>
           <TitleHeader title={`ALL ORDERS - Admin`} />
           <div className="p-4">
-            <DataGrid
-              rows={orderList?.orders}
-              columns={columns}
-              pageSize={10}
-              disableSelectionOnClick
-              className="productListTable"
-              autoHeight
-            />
+            {orderList?.orders?.lenght < 0 ?
+              <>
+                <DataGrid
+                  rows={orderList?.orders}
+                  columns={columns}
+                  pageSize={10}
+                  disableSelectionOnClick
+                  className=""
+                  autoHeight
+                  getRowId={(row) => row._id}
+                />
+              </>
+              : <>
+                <div>No data here</div>
+              </>}
           </div>
         </div>
       </div>

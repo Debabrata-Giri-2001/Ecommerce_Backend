@@ -1,72 +1,94 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { DataGrid } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
 import TitleHeader from '../../components/layout/TitleHeader';
 import SideBar from './SideBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { allUserListFetch } from '../../redux/stores/UserListSlice';
+import Loader from '../../components/core/Loader';
+import Error from '../../components/core/Error';
 
 const UsersList = () => {
 
+
+  const dispatch = useDispatch();
+  const userList = useSelector(state => state.userList.user);
+  const status = useSelector(state => state.userList.state);
+
+  useEffect(() => {
+    dispatch(allUserListFetch());
+  }, [dispatch]);
+
+  // Render loading state
+  if (status === 'loading') {
+    return <Loader />;
+  }
+
+  // Render error state
+  if (status === 'failed') {
+    return <Error />;
+  }
+
   const columns = [
-    { field: "id", headerName: "User ID", minWidth: 180, flex: 0.8 },
+    { field: "_id", headerName: "User ID", minWidth: 300 },
 
     {
       field: "email",
       headerName: "Email",
-      minWidth: 200,
-      flex: 1,
+      minWidth: 300,
     },
     {
       field: "name",
       headerName: "Name",
-      minWidth: 150,
-      flex: 0.5,
+      minWidth: 200,
     },
-
     {
       field: "role",
       headerName: "Role",
       type: "number",
-      minWidth: 150,
-      flex: 0.3,
-      cellClassName: (params) => {
-        return params.getValue(params.id, "role") === "admin"
-          ? "greenColor"
-          : "redColor";
+      minWidth: 100,
+      renderCell: (params) => {
+        const style = {
+          color: params.value === "admin" ? '#be1c1c' : '#1cbe1c',
+        };
+        return <span style={style}>{params.value}</span>;
       },
+    },
+    {
+      field: "phone",
+      headerName: "Number",
+      minWidth: 150,
     },
 
     {
       field: "actions",
-      flex: 0.3,
       headerName: "Actions",
       minWidth: 150,
-      type: "number",
-      sortable: false,
       renderCell: (params) => {
         return (
-          <Fragment>
-            <Link to={`/admin/user/${params.getValue(params.id, "id")}`}>
-              <FaRegEdit />
-            </Link>
+          <div className='flex flex-row space-x-3 items-center self-center'>
+            <button onClick={() => {
+            }}>
+              <FaRegEdit color='#1cbe1c' size={22} />
+            </button>
 
             <button
               onClick={() =>
-                deleteUserHandler(params.getValue(params.id, "id"))
-              }
-            >
-              <MdDelete />
+                deleteUserHandler(params?.id, "id")
+              }>
+              <MdDelete color='#be1c1c' size={22} />
             </button>
-          </Fragment>
+          </div>
         );
       },
     },
   ];
 
-  const rows = [];
+  const deleteUserHandler = (id) => {
+    console.log("id-->", id)
+  }
 
-  const deleteUserHandler = () => { }
 
   return (
     <Fragment>
@@ -75,14 +97,22 @@ const UsersList = () => {
         <div className="w-full">
           <TitleHeader title={`ALL USERS - Admin`} />
           <div className="p-4">
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={10}
-              disableSelectionOnClick
-              className="productListTable"
-              autoHeight
-            />
+            {userList?.users?.length > 0 ?
+              <>
+                <DataGrid
+                  rows={userList?.users}
+                  columns={columns}
+                  pageSize={10}
+                  disableSelectionOnClick
+                  className="productListTable"
+                  autoHeight
+                  getRowId={(row) => row._id}
+                />
+              </> :
+              <div>
+                <h1>No data Here</h1>
+              </div>
+            }
           </div>
         </div>
       </div>
