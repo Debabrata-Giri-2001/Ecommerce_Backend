@@ -398,7 +398,7 @@ const ProductsReviews = () => {
         </div>
       </section>
 
-      <div id="review-modal" tabindex="-1" aria-hidden="true" className="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0 antialiased">
+      <div id="review-modal" tabIndex="-1" aria-hidden="true" className="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0 antialiased">
         <div className="relative max-h-full w-full max-w-2xl p-4">
           <div className="relative rounded-lg bg-white shadow ">
             <div className="flex items-center justify-between rounded-t border-b border-gray-200 p-4 ">
